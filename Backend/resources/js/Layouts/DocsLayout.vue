@@ -10,14 +10,13 @@ const isUserOpen = ref(false)
 
 <template>
   <div class="min-h-screen bg-[#0f0f0f] text-[#ededed] font-sans selection:bg-indigo-500/30">
-    <Head title="SILVER Docs" />
+    <Head title="SILVER Documentations" />
 
     <!-- Top Navigation Bar -->
     <header class="h-14 border-b border-[#262626] bg-[#0f0f0f]/80 backdrop-blur-md sticky top-0 z-50 px-6 flex items-center justify-between">
       <div class="flex items-center gap-10">
         <Link href="/" class="flex items-center gap-2 group shrink-0">
-          <span class="text-lg font-bold tracking-tight text-white transition-colors group-hover:text-indigo-400">SILVER Docs</span>
-          <span class="px-1.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 text-[10px] font-bold border border-indigo-500/20">v1.0</span>
+          <span class="text-lg font-bold tracking-tight text-white transition-colors group-hover:text-indigo-400">SILVER Documentations</span>
         </Link>
 
         <!-- Applications Selector (Section) -->
