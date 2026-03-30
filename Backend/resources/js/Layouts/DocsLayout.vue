@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { Head, Link, usePage } from '@inertiajs/vue3'
 import { Search, ChevronDown, Grid, Settings, LogOut } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
 
+const page = usePage()
 const isAppsOpen = ref(false)
 const isUserOpen = ref(false)
+
+const navApplications = computed(() => (page.props as any).applications ?? [])
 </script>
 
 <template>
@@ -33,7 +36,20 @@ const isUserOpen = ref(false)
           <!-- Apps Dropdown -->
           <div v-if="isAppsOpen" class="absolute top-full left-0 mt-2 w-64 bg-[#161616] border border-[#262626] rounded-xl shadow-2xl p-2 z-[60] animate-in fade-in zoom-in-95 duration-200">
             <div class="px-3 py-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest border-b border-[#262626] mb-2">Select Application</div>
-            <slot name="top-nav-apps" />
+            <div class="space-y-1">
+              <Link
+                v-for="app in navApplications"
+                :key="app.id"
+                :href="route('app.show', app.slug)"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all group"
+              >
+                <div class="w-2 h-2 rounded-full shrink-0 bg-indigo-400" />
+                {{ app.name }}
+              </Link>
+              <div v-if="navApplications.length === 0" class="px-3 py-4 text-xs text-gray-500 text-center">
+                No applications available.
+              </div>
+            </div>
           </div>
         </div>
       </div>

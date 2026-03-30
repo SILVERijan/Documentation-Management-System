@@ -40,9 +40,9 @@ const props = defineProps<{
 const activeTab = ref('overview')
 
 const adminMenu = [
-  { name: 'User Management', icon: Users, active: true },
-  { name: 'App Settings', icon: Layers },
-  { name: 'Security & RBAC', icon: ShieldCheck },
+  { name: 'Dashboard', icon: LayoutGrid, active: true, href: route('admin.dashboard') },
+  { name: 'User Management', icon: Users, active: false, href: route('admin.users.index') },
+  { name: 'Application Management', icon: Layers, active: false, href: route('admin.applications.index') },
   { name: 'System Logs', icon: Activity }
 ]
 
@@ -87,14 +87,9 @@ const chartData = props.docsPerApp.map(d => ({
           <h3 class="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-4 px-2">Admin Portal</h3>
           <nav class="space-y-1">
             <Link 
-              v-for="item in [
-                { name: 'User Management', icon: Users, active: true },
-                { name: 'App Settings', icon: Layers },
-                { name: 'Security & RBAC', icon: ShieldCheck },
-                { name: 'System Logs', icon: Activity }
-              ]" 
+              v-for="item in adminMenu" 
               :key="item.name"
-              href="#"
+              :href="item.href || '#'"
               :class="cn(
                 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all group',
                 item.active ? 'bg-indigo-500/10 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'
