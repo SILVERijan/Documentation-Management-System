@@ -26,7 +26,8 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
     <header class="h-14 border-b border-[#262626] bg-[#0f0f0f]/80 backdrop-blur-md sticky top-0 z-50 px-6 flex items-center justify-between">
       <div class="flex items-center gap-10">
         <Link href="/" class="flex items-center gap-2.5 group shrink-0">
-          <ApplicationLogo size="sm" show-name />
+          <ApplicationLogo size="sm" :show-name="true" />
+          <span v-if="$page.props.auth?.user?.role === 'admin'" class="ml-2 px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-black uppercase tracking-widest border border-indigo-500/20">Admin</span>
         </Link>
 
         <!-- Applications Selector (Section) -->
@@ -44,15 +45,36 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
           <div v-if="isAppsOpen" class="absolute top-full left-0 mt-2 w-64 bg-[#161616] border border-[#262626] rounded-xl shadow-2xl p-2 z-[60] animate-in fade-in zoom-in-95 duration-200">
             <div class="px-3 py-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest border-b border-[#262626] mb-2">Select Application</div>
             <div class="space-y-1">
-              <Link
+              <div
                 v-for="app in navApplications"
                 :key="app.id"
-                :href="route('app.show.doc', { appSlug: app.slug })"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all group"
               >
-                <div class="w-2 h-2 rounded-full shrink-0 bg-indigo-400" />
-                {{ app.name }}
-              </Link>
+                <Link
+                  v-if="app.slug"
+                  :href="app.slug ? route('app.show.doc', { appSlug: app.slug }) : '#'"
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all group"
+                >
+                  <div :class="cn('w-2 h-2 rounded-full shrink-0', app.color || 'bg-indigo-400')" />
+                  <div class="flex flex-col gap-0.5 min-w-0 flex-1">
+                      <span class="truncate">{{ app.name }}</span>
+                      <span v-if="app.status !== 'active' && $page.props.auth?.user?.role === 'admin'" class="text-[9px] uppercase tracking-tighter text-gray-500 font-bold">
+                          {{ app.status }}
+                      </span>
+                  </div>
+                </Link>
+                <div 
+                  v-else
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 cursor-not-allowed"
+                >
+                  <div class="w-2 h-2 rounded-full shrink-0 bg-gray-600" />
+                  <div class="flex flex-col gap-0.5 min-w-0 flex-1">
+                      <span class="truncate">{{ app.name }}</span>
+                      <span class="text-[9px] uppercase tracking-tighter text-red-500 font-bold">
+                          NO SLUG
+                      </span>
+                  </div>
+                </div>
+              </div>
               <div v-if="navApplications.length === 0" class="px-3 py-4 text-xs text-gray-500 text-center">
                 No applications available.
               </div>
@@ -74,13 +96,21 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
         <!-- Authorized User Links -->
         <template v-if="$page.props.auth && $page.props.auth.user">
             <!-- Admin Link -->
-            <Link 
-                v-if="$page.props.auth.user.role === 'admin'"
-                :href="route('admin.dashboard')" 
-                class="text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition-colors border-r border-[#262626] pr-8"
-            >
-                Admin Portal
-            </Link>
+                <Link 
+                    v-if="$page.props.auth.user.role === 'admin' && !route().current('admin.*') && !route().current('profile.edit')"
+                    :href="route('admin.dashboard')" 
+                    class="text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition-colors border-r border-[#262626] pr-8"
+                >
+                    Admin Portal
+                </Link>
+
+                <Link 
+                    v-if="$page.props.auth.user.role === 'admin' && (route().current('admin.*') || route().current('profile.edit'))"
+                    :href="route('dashboard')" 
+                    class="text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition-colors border-r border-[#262626] pr-8"
+                >
+                    Admin Portal
+                </Link>
             
             <!-- User Link -->
             <Link 
@@ -141,7 +171,7 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
 
     <div class="flex h-[calc(100vh-3.5rem)]">
       <!-- Left Sidebar (Applications & Docs) -->
-      <aside class="w-72 border-r border-[#262626] bg-[#0f0f0f] flex flex-col shrink-0 overflow-y-auto hidden lg:flex">
+      <aside v-if="$slots['left-sidebar']" class="w-72 border-r border-[#262626] bg-[#0f0f0f] flex flex-col shrink-0 overflow-y-auto hidden lg:flex">
         <slot name="left-sidebar" />
       </aside>
 
