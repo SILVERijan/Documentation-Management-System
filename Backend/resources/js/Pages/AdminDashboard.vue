@@ -68,8 +68,14 @@ const barChartData = computed(() => ({
         backgroundColor: props.docsPerApp.map(d => {
             const colorMap: Record<string, string> = {
                 indigo: '#6366f1',
-                red: '#ef4444',
                 emerald: '#10b981',
+                rose: '#f43f5e',
+                amber: '#f59e0b',
+                sky: '#0ea5e9',
+                violet: '#8b5cf6',
+                fuchsia: '#d946ef',
+                // Legacy or fallback colors
+                red: '#ef4444',
                 orange: '#f59e0b',
                 blue: '#3b82f6',
             };
