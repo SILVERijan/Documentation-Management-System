@@ -49,6 +49,7 @@ const adminMenu = [
   { name: 'User Management', icon: Users, active: false, href: route('admin.users.index') },
   { name: 'Application Management', icon: Layers, active: false, href: route('admin.applications.index') },
   { name: 'Documentation Management', icon: FileText, active: false, href: route('admin.documents.index') },
+  { name: 'Activity Log', icon: Activity, active: false, href: route('admin.activity') },
   { name: 'My Documents', icon: FileText, active: false, href: route('user.documents.index') }
 ]
 
@@ -268,9 +269,9 @@ const doughnutChartOptions = {
             <h3 class="text-lg font-bold text-white mb-1">Recent Document Activity</h3>
             <p class="text-sm text-gray-500">The latest documentation updates from your team.</p>
           </div>
-          <button class="px-4 py-2 rounded-xl bg-white/5 border border-[#262626] text-xs font-bold text-gray-300 hover:text-white hover:bg-white/10 transition-all">
+          <Link :href="route('admin.activity')" class="px-4 py-2 rounded-xl bg-white/5 border border-[#262626] text-xs font-bold text-gray-300 hover:text-white hover:bg-white/10 transition-all">
             View All Activity
-          </button>
+          </Link>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

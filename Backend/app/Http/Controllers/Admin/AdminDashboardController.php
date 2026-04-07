@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Document;
 use App\Models\Application;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class AdminDashboardController extends Controller
@@ -55,6 +56,37 @@ class AdminDashboardController extends Controller
                 ->mapWithKeys(fn($count, $status) => [ucfirst($status) => $count])
                 ->all(),
             'recentDocuments' => $recentDocuments,
+        ]);
+    }
+
+    public function activity(Request $request)
+    {
+        $activities = Document::with(['application', 'user', 'updater'])
+            ->latest('updated_at')
+            ->paginate(15)
+            ->through(function ($doc) {
+                // Determine the action type
+                $isNew = $doc->created_at->eq($doc->updated_at);
+                $action = $isNew ? 'created' : 'updated';
+                
+                return [
+                    'id' => $doc->id,
+                    'type' => 'document',
+                    'action' => $action,
+                    'title' => $doc->title,
+                    'document_slug' => $doc->slug,
+                    'app' => $doc->application ? $doc->application->name : 'N/A',
+                    'app_slug' => $doc->application ? $doc->application->slug : 'unassigned',
+                    'appColor' => $doc->application ? ($doc->application->color ?? 'indigo') : 'gray',
+                    'user' => $doc->updater ? $doc->updater->name : ($doc->user ? $doc->user->name : 'Unknown'),
+                    'time' => $doc->updated_at->diffForHumans(),
+                    'timestamp' => $doc->updated_at->toDateTimeString(),
+                    'status' => $doc->status,
+                ];
+            });
+
+        return Inertia::render('Admin/ActivityLog', [
+            'activities' => $activities,
         ]);
     }
 }

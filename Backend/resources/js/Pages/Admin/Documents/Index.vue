@@ -35,6 +35,7 @@ const adminMenu = [
   { name: 'User Management', icon: Users, active: false, href: route('admin.users.index') },
   { name: 'Application Management', icon: Layers, active: false, href: route('admin.applications.index') },
   { name: 'Documentation Management', icon: FileText, active: true, href: route('admin.documents.index') },
+  { name: 'Activity Log', icon: Activity, active: false, href: route('admin.activity') },
   { name: 'My Documents', icon: FileText, active: false, href: route('user.documents.index') }
 ]
 
