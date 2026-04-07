@@ -47,10 +47,9 @@ class HandleInertiaRequests extends Middleware
                         ->orderBy('name', 'asc')
                         ->get();
             },
-            'flash' => [
-                'success' => $request->session()->get('success'),
-                'error' => $request->session()->get('error'),
-            ],
+            'flash' => function (Request $request) {
+                return $request->session()->get('flash_message');
+            },
         ];
     }
 }

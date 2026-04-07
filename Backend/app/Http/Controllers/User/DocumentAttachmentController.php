@@ -8,6 +8,7 @@ use App\Models\DocumentAttachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Gate;
+use App\Helpers\Flash;
 
 class DocumentAttachmentController extends Controller
 {
@@ -38,7 +39,9 @@ class DocumentAttachmentController extends Controller
             'file_size'     => $file->getSize(),
         ]);
 
-        return redirect()->back()->with('success', 'File attached successfully.');
+        Flash::make('File attached successfully.');
+
+        return redirect()->back();
     }
 
     /**
@@ -79,6 +82,8 @@ class DocumentAttachmentController extends Controller
         // Delete from database
         $attachment->delete();
 
-        return redirect()->back()->with('success', 'Attachment removed.');
+        Flash::make('Attachment removed.');
+
+        return redirect()->back();
     }
 }

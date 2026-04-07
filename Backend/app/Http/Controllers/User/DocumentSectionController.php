@@ -8,6 +8,7 @@ use App\Models\DocumentSection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
+use App\Helpers\Flash;
 
 class DocumentSectionController extends Controller
 {
@@ -57,7 +58,9 @@ class DocumentSectionController extends Controller
             'sort_order' => $maxOrder + 1,
         ]);
 
-        return redirect()->back()->with('success', 'Section added successfully.');
+        Flash::make('Section added successfully.');
+
+        return redirect()->back();
     }
 
     /**
@@ -74,7 +77,9 @@ class DocumentSectionController extends Controller
 
         $section->update($validated);
 
-        return redirect()->back()->with('success', 'Section updated successfully.');
+        Flash::make('Section updated successfully.');
+
+        return redirect()->back();
     }
 
     /**
@@ -85,6 +90,8 @@ class DocumentSectionController extends Controller
         Gate::authorize('update', $document);
         $section->delete();
 
-        return redirect()->back()->with('success', 'Section deleted.');
+        Flash::make('Section deleted.');
+
+        return redirect()->back();
     }
 }

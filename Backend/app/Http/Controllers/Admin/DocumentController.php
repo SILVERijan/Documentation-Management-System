@@ -7,6 +7,7 @@ use App\Models\Document;
 use App\Models\Application;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Helpers\Flash;
 
 class DocumentController extends Controller
 {
@@ -75,7 +76,9 @@ class DocumentController extends Controller
     {
         $document->update(['status' => 'archived']);
 
-        return redirect()->back()->with('success', 'Document archived successfully.');
+        Flash::make('Document archived successfully.');
+
+        return redirect()->back();
     }
 
     /**
@@ -86,7 +89,9 @@ class DocumentController extends Controller
         $document = Document::withTrashed()->findOrFail($id);
         $document->restore();
 
-        return redirect()->back()->with('success', 'Document restored successfully.');
+        Flash::make('Document restored successfully.');
+
+        return redirect()->back();
     }
 
     /**
@@ -96,7 +101,9 @@ class DocumentController extends Controller
     {
         $document->delete();
 
-        return redirect()->back()->with('success', 'Document moved to trash.');
+        Flash::make('Document moved to trash.');
+
+        return redirect()->back();
     }
 
     /**
@@ -107,6 +114,8 @@ class DocumentController extends Controller
         $document = Document::withTrashed()->findOrFail($id);
         $document->forceDelete();
 
-        return redirect()->back()->with('success', 'Document permanently deleted.');
+        Flash::make('Document permanently deleted.');
+
+        return redirect()->back();
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Gate;
+use App\Helpers\Flash;
 
 class DocumentController extends Controller
 {
@@ -117,11 +118,12 @@ class DocumentController extends Controller
 
         Document::create($validated);
 
+        Flash::make('Document created successfully.');
         if ($user->isAdmin()) {
-            return redirect()->route('admin.documents.index')->with('success', 'Document created successfully.');
+            return redirect()->route('admin.documents.index');
         }
 
-        return redirect()->route('user.documents.index')->with('success', 'Document created successfully.');
+        return redirect()->route('user.documents.index');
     }
 
     public function edit(Document $document)
@@ -190,17 +192,19 @@ class DocumentController extends Controller
 
         $document->update($validated);
 
+        Flash::make('Document updated successfully.');
         if ($user->isAdmin()) {
-            return redirect()->route('admin.documents.index')->with('success', 'Document updated successfully.');
+            return redirect()->route('admin.documents.index');
         }
 
-        return redirect()->route('user.documents.index')->with('success', 'Document updated successfully.');
+        return redirect()->route('user.documents.index');
     }
 
     public function destroy(Document $document)
     {
         Gate::authorize('delete', $document);
         $document->delete();
-        return redirect()->back()->with('success', 'Document deleted successfully.');
+        Flash::make('Document deleted successfully.');
+        return redirect()->back();
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use App\Helpers\Flash;
 
 class ApplicationController extends Controller
 {
@@ -48,7 +49,9 @@ class ApplicationController extends Controller
             'created_by' => auth()->id(),
         ]);
 
-        return redirect()->back()->with('success', 'Application created successfully.');
+        Flash::make('Application created successfully.');
+
+        return redirect()->back();
     }
 
     public function update(Request $request, Application $application)
@@ -78,13 +81,17 @@ class ApplicationController extends Controller
         $application->color = $request->color ?? $application->color;
         $application->save();
 
-        return redirect()->back()->with('success', 'Application updated successfully.');
+        Flash::make('Application updated successfully.');
+
+        return redirect()->back();
     }
 
     public function destroy(Application $application)
     {
         $application->delete();
 
-        return redirect()->back()->with('success', 'Application deleted successfully.');
+        Flash::make('Application deleted successfully.');
+
+        return redirect()->back();
     }
 }

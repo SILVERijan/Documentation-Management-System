@@ -8,6 +8,7 @@ use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use App\Helpers\Flash;
 
 class UserController extends Controller
 {
@@ -53,7 +54,9 @@ class UserController extends Controller
             $user->applications()->sync($applicationsSync);
         }
 
-        return redirect()->back()->with('success', 'User created successfully.');
+        Flash::make('User created successfully.');
+
+        return redirect()->back();
     }
 
     public function update(Request $request, User $user)
@@ -92,17 +95,22 @@ class UserController extends Controller
              $user->applications()->detach();
         }
 
-        return redirect()->back()->with('success', 'User updated successfully.');
+        Flash::make('User updated successfully.');
+
+        return redirect()->back();
     }
 
     public function destroy(User $user)
     {
         if ($user->id === auth()->id()) {
-            return redirect()->back()->with('error', 'You cannot delete yourself.');
+            Flash::make('You cannot delete yourself.', 'error');
+            return redirect()->back();
         }
 
         $user->delete();
 
-        return redirect()->back()->with('success', 'User deleted successfully.');
+        Flash::make('User deleted successfully.');
+
+        return redirect()->back();
     }
 }
