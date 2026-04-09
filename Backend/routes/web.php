@@ -40,6 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::put('documents/{document}/sections/{section}', [\App\Http\Controllers\User\DocumentSectionController::class, 'update'])->name('user.sections.update');
     Route::delete('documents/{document}/sections/{section}', [\App\Http\Controllers\User\DocumentSectionController::class, 'destroy'])->name('user.sections.destroy');
     
+    // Markdown import
+    Route::post('documents/import-markdown', [\App\Http\Controllers\User\MarkdownImportController::class, 'parse'])->name('user.documents.import-markdown');
+
     // Attachments
     Route::post('documents/{document}/attachments', [\App\Http\Controllers\User\DocumentAttachmentController::class, 'store'])->name('user.attachments.store');
     Route::delete('attachments/{attachment}', [\App\Http\Controllers\User\DocumentAttachmentController::class, 'destroy'])->name('user.attachments.destroy');
@@ -48,20 +51,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/media/upload', [\App\Http\Controllers\MediaController::class, 'upload'])->name('media.upload');
 
     Route::get('/admin', [AdminDashboardController::class, 'index'])->middleware('admin')->name('admin.dashboard');
+    Route::get('/admin/activity', [AdminDashboardController::class, 'activity'])->middleware('admin')->name('admin.activity');
     Route::resource('admin/users', \App\Http\Controllers\Admin\UserController::class)->middleware('admin')->names('admin.users');
     Route::resource('admin/applications', \App\Http\Controllers\Admin\ApplicationController::class)->middleware('admin')->names('admin.applications');
     Route::post('admin/documents/{document}/archive', [\App\Http\Controllers\Admin\DocumentController::class, 'archive'])->middleware('admin')->name('admin.documents.archive');
     Route::post('admin/documents/{document}/restore', [\App\Http\Controllers\Admin\DocumentController::class, 'restore'])->middleware('admin')->name('admin.documents.restore');
     Route::delete('admin/documents/{document}/force-delete', [\App\Http\Controllers\Admin\DocumentController::class, 'forceDelete'])->middleware('admin')->name('admin.documents.force-delete');
     Route::resource('admin/documents', \App\Http\Controllers\Admin\DocumentController::class)->middleware('admin')->names('admin.documents');
-    Route::get('admin/activity', [AdminDashboardController::class, 'activity'])->middleware('admin')->name('admin.activity');
-
     
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
+Route::get('/original', function () {
+    return Inertia::render('FrontendOriginal');
+});
 
 require __DIR__.'/auth.php';

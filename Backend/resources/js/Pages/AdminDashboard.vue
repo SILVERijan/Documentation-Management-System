@@ -88,20 +88,25 @@ const barChartData = computed(() => ({
 }));
 
 // Doughnut Chart Data (Document Status)
-const doughnutChartData = computed(() => ({
-    labels: Object.keys(props.docStatusDistribution),
-    datasets: [{
-        data: Object.values(props.docStatusDistribution),
-        backgroundColor: [
-            '#10b981', // Published (Emerald)
-            '#f59e0b', // Draft (Orange)
-            '#374151', // Archived (Gray-700)
-        ],
-        borderWidth: 0,
-        hoverOffset: 15,
-        cutout: '70%',
-    }]
-}));
+const doughnutChartData = computed(() => {
+    const labels = Object.keys(props.docStatusDistribution);
+    const colorMap: Record<string, string> = {
+        'Published': '#10b981', // Green (Emerald)
+        'Draft': '#f59e0b',     // Yellow (Orange)
+        'Archived': '#374151',  // Gray
+    };
+
+    return {
+        labels,
+        datasets: [{
+            data: Object.values(props.docStatusDistribution),
+            backgroundColor: labels.map(label => colorMap[label] || '#374151'),
+            borderWidth: 0,
+            hoverOffset: 15,
+            cutout: '70%',
+        }]
+    };
+});
 
 const barChartOptions = {
     scales: {

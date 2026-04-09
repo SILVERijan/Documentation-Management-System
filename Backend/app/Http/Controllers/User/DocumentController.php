@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Gate;
-use App\Helpers\Flash;
 
 class DocumentController extends Controller
 {
@@ -91,10 +90,13 @@ class DocumentController extends Controller
         Gate::authorize('create', Document::class);
 
         $validated = $request->validate([
-            'title'          => 'required|string|max:255',
-            'application_id' => 'required|exists:applications,id',
-            'content'        => 'required|string',
-            'status'         => 'required|in:draft,published',
+            'title'                => 'required|string|max:255',
+            'application_id'       => 'required|exists:applications,id',
+            'content'              => 'required|string',
+            'status'               => 'required|in:draft,published',
+            'sections'             => 'nullable|array',
+            'sections.*.sub_title' => 'required_with:sections|string|max:255',
+            'sections.*.content'   => 'required_with:sections|string',
         ]);
         
         $user = auth()->user();
@@ -116,14 +118,25 @@ class DocumentController extends Controller
             $validated['published_at'] = now();
         }
 
-        Document::create($validated);
+        $document = Document::create($validated);
 
-        Flash::make('Document created successfully.');
-        if ($user->isAdmin()) {
-            return redirect()->route('admin.documents.index');
+        // Save sections if provided (e.g. from markdown import)
+        if (!empty($validated['sections'])) {
+            foreach ($validated['sections'] as $index => $section) {
+                $document->sections()->create([
+                    'user_id'    => $user->id,
+                    'sub_title'  => $section['sub_title'],
+                    'content'    => $section['content'],
+                    'sort_order' => $index + 1,
+                ]);
+            }
         }
 
-        return redirect()->route('user.documents.index');
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.documents.index')->with('success', 'Document created successfully.');
+        }
+
+        return redirect()->route('user.documents.index')->with('success', 'Document created successfully.');
     }
 
     public function edit(Document $document)
@@ -192,19 +205,17 @@ class DocumentController extends Controller
 
         $document->update($validated);
 
-        Flash::make('Document updated successfully.');
         if ($user->isAdmin()) {
-            return redirect()->route('admin.documents.index');
+            return redirect()->route('admin.documents.index')->with('success', 'Document updated successfully.');
         }
 
-        return redirect()->route('user.documents.index');
+        return redirect()->route('user.documents.index')->with('success', 'Document updated successfully.');
     }
 
     public function destroy(Document $document)
     {
         Gate::authorize('delete', $document);
         $document->delete();
-        Flash::make('Document deleted successfully.');
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Document deleted successfully.');
     }
 }

@@ -71,7 +71,7 @@ const editor = useEditor({
 // Sync internal editor content with prop changes
 watch(() => props.modelValue, (value) => {
   if (editor.value && editor.value.getHTML() !== value) {
-    editor.value.commands.setContent(value, false)
+    editor.value.commands.setContent(value, { emitUpdate: false } as any)
   }
 })
 
