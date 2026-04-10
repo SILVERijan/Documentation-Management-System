@@ -51,7 +51,7 @@ class DocumentationController extends Controller
         $toc = $sections->map(fn($s) => [
             'id'    => $this->makeAnchor($s->sub_title),
             'title' => $s->sub_title,
-            'level' => 2,
+            'level' => $s->level,
         ])->values()->toArray();
 
         // Convert main document content markdown -> HTML
@@ -62,6 +62,7 @@ class DocumentationController extends Controller
             'id'       => $this->makeAnchor($s->sub_title),
             'sub_title' => $s->sub_title,
             'content'  => \Illuminate\Support\Str::markdown($s->content),
+            'level'    => $s->level,
         ])->values()->toArray();
 
         return Inertia::render('Documentation/Show', [
@@ -124,4 +125,7 @@ class DocumentationController extends Controller
     {
         return strtolower(trim(preg_replace('/[^A-Za-z0-9]+/', '-', $text), '-'));
     }
+
+   
+
 }

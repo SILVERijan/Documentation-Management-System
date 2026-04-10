@@ -11,6 +11,7 @@ const props = defineProps<{
     currentDocument: {
         id: number; 
         title: string; 
+        sub_title?: string;
         content: string; 
         updated_at: string; 
         status: string;
@@ -21,7 +22,7 @@ const props = defineProps<{
             file_type: string;
         }>;
     } | null,
-    sections: Array<{ id: string; sub_title: string; content: string }>,
+    sections: Array<{ id: string; sub_title: string; content: string; level: number }>,
     toc: Array<{ id: string; title: string; level: number }>,
 }>()
 
@@ -84,12 +85,15 @@ onMounted(() => {
     </template>
 
     <!-- Main content -->
-    <div class="space-y-10" v-if="currentDocument">
+    <div class="space-y-10 pb-24" v-if="currentDocument">
       <!-- Document header -->
       <header class="space-y-4 pb-8 border-b border-[#262626]">
         <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
           {{ currentDocument.title }}
         </h1>
+        <p v-if="currentDocument.sub_title" class="text-xl text-gray-400 font-medium leading-relaxed max-w-2xl">
+          {{ currentDocument.sub_title }}
+        </p>
         <div class="flex flex-wrap items-center gap-6 text-sm">
           <div class="flex flex-col gap-0.5">
             <span class="text-gray-500 font-bold uppercase tracking-wider text-[10px]">Application</span>
@@ -116,8 +120,12 @@ onMounted(() => {
 
       <!-- Sections -->
       <div v-for="section in sections" :key="section.id" class="space-y-4 scroll-mt-20" >
-        <div :id="section.id" class="space-y-4 pt-8 border-t border-[#1a1a1a] scroll-mt-24">
-          <h2 class="text-2xl font-bold text-white">{{ section.sub_title }}</h2>
+        <div :id="section.id" :class="cn('space-y-4 pt-10 scroll-mt-24', section.level === 3 ? 'ml-0' : 'border-t border-[#1a1a1a]')">
+          <h2 v-if="section.level === 2" class="text-3xl font-extrabold text-white tracking-tight">{{ section.sub_title }}</h2>
+          <h3 v-else class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-indigo-500/50" />
+            {{ section.sub_title }}
+          </h3>
           <div class="prose prose-invert max-w-none" v-html="section.content" />
         </div>
       </div>
@@ -184,8 +192,9 @@ onMounted(() => {
             :class="cn(
               'block w-full text-left px-0 py-1 text-sm transition-all border-l-2',
               activeId === item.id
-                ? 'text-indigo-400 border-indigo-500 pl-3'
-                : 'text-gray-500 hover:text-gray-300 border-transparent pl-3'
+                ? 'text-indigo-400 border-indigo-500'
+                : 'text-gray-500 hover:text-gray-300 border-transparent',
+              item.level === 3 ? 'pl-6 text-[13px]' : 'pl-3'
             )"
           >
             {{ item.title }}

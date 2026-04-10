@@ -6,7 +6,7 @@ import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
 import { 
   Bold, Italic, Underline as UnderlineIcon, List, ListOrdered, 
-  Quote, Code, Heading1, Heading2, Link as LinkIcon, Unlink,
+  Quote, Code, Heading1, Heading2, Heading3, Link as LinkIcon, Unlink,
   Undo, Redo, Image as ImageIcon, Loader2
 } from 'lucide-vue-next'
 import { watch, onBeforeUnmount, ref } from 'vue'
@@ -179,6 +179,14 @@ const setLink = () => {
         title="Heading 2"
       >
         <Heading2 class="w-4 h-4" />
+      </button>
+      <button 
+        type="button"
+        @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+        :class="['p-2 rounded-lg hover:bg-white/5 transition-all', editor.isActive('heading', { level: 3 }) ? 'text-indigo-400 bg-indigo-500/10' : 'text-gray-400']"
+        title="Heading 3"
+      >
+        <Heading3 class="w-4 h-4" />
       </button>
 
       <div class="w-px h-4 bg-[#262626] mx-1" />

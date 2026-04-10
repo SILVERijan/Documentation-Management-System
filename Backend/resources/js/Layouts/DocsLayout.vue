@@ -285,7 +285,7 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
       </main>
 
       <!-- Right Sidebar (TOC) -->
-      <aside v-if="!wide && $slots['right-sidebar']" class="w-64 border-l border-[#262626] bg-[#0f0f0f] shrink-0 hidden xl:flex flex-col p-8 sticky top-14 h-full">
+      <aside v-if="!wide && $slots['right-sidebar']" class="w-64 border-l border-[#262626] bg-[#0f0f0f] shrink-0 hidden xl:flex flex-col p-8 sticky top-14 h-full overflow-y-auto max-h-full">
         <slot name="right-sidebar" />
       </aside>
     </div>

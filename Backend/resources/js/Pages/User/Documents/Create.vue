@@ -17,17 +17,18 @@ const props = defineProps<{
 
 const form = useForm({
   title: '',
+  sub_title: '',
   application_id: '',
   status: 'draft',
   content: '',
-  sections: [] as Array<{ sub_title: string; content: string }>,
+  sections: [] as Array<{ sub_title: string; content: string; level: number }>,
 })
 
 // Markdown import state
 const isDragging       = ref(false)
 const isImporting      = ref(false)
 const importError      = ref('')
-const importedSections = ref<Array<{ sub_title: string; content: string }>>([])
+const importedSections = ref<Array<{ sub_title: string; content: string; level: number }>>([])
 const fileInputRef     = ref<HTMLInputElement | null>(null)
 
 const userMenu = computed(() => {
@@ -56,8 +57,9 @@ async function handleFile(file: File) {
   try {
     const data = await importDocument(file)
 
-    form.title   = data.title   || form.title
-    form.content = data.intro   || form.content
+    form.title     = data.title     || form.title
+    form.sub_title = data.sub_title || form.sub_title
+    form.content   = data.intro     || form.content
     if (data.sections && data.sections.length > 0) {
       importedSections.value = data.sections
       form.sections = data.sections
@@ -170,8 +172,8 @@ const submit = () => {
           </div>
           <div class="flex items-center gap-2 mt-1">
             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/5 text-gray-400 border border-white/10"># H1 → Title</span>
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/5 text-gray-400 border border-white/10">## H2 → Sections</span>
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/5 text-gray-400 border border-white/10">Intro → Overview</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/5 text-gray-400 border border-white/10">## H2 → Subtitle</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/5 text-gray-400 border border-white/10">### H3 → Sections</span>
           </div>
         </div>
 
@@ -187,7 +189,7 @@ const submit = () => {
           <CheckCircle2 class="w-5 h-5 text-emerald-400 shrink-0" />
           <div>
             <p class="text-sm font-bold text-white">Markdown imported successfully</p>
-            <p class="text-xs text-gray-400">{{ importedSections.length }} section{{ importedSections.length !== 1 ? 's' : '' }} detected and auto-filled below</p>
+            <p class="text-xs text-gray-400">{{ importedSections.length }} section{{ importedSections.length !== 1 ? 's' : '' }} detected (H2/H3 levels)</p>
           </div>
         </div>
         <button type="button" @click="clearImport" class="flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition-colors font-medium">
@@ -197,17 +199,31 @@ const submit = () => {
 
       <!-- Main Form -->
       <form @submit.prevent="submit" class="bg-[#161616] border border-[#262626] rounded-3xl overflow-hidden shadow-2xl p-8 space-y-6">
-        <!-- Title -->
-        <div class="space-y-2">
-          <label class="text-sm font-bold text-gray-300">Title</label>
-          <input
-            v-model="form.title"
-            type="text"
-            required
-            class="w-full bg-[#1a1a1a] border-[#262626] rounded-xl px-4 py-2.5 text-white placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
-            placeholder="e.g. Onboarding Guide"
-          />
-          <div v-if="form.errors.title" class="text-red-400 text-xs mt-1">{{ form.errors.title }}</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Title -->
+            <div class="space-y-2">
+                <label class="text-sm font-bold text-gray-300">Title (H1)</label>
+                <input
+                    v-model="form.title"
+                    type="text"
+                    required
+                    class="w-full bg-[#1a1a1a] border-[#262626] rounded-xl px-4 py-2.5 text-white placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
+                    placeholder="e.g. Onboarding Guide"
+                />
+                <div v-if="form.errors.title" class="text-red-400 text-xs mt-1">{{ form.errors.title }}</div>
+            </div>
+
+            <!-- Subtitle -->
+            <div class="space-y-2">
+                <label class="text-sm font-bold text-gray-300">Subtitle (H2)</label>
+                <input
+                    v-model="form.sub_title"
+                    type="text"
+                    class="w-full bg-[#1a1a1a] border-[#262626] rounded-xl px-4 py-2.5 text-white placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
+                    placeholder="e.g. Getting started with our platform"
+                />
+                <div v-if="form.errors.sub_title" class="text-red-400 text-xs mt-1">{{ form.errors.sub_title }}</div>
+            </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -91,12 +91,14 @@ class DocumentController extends Controller
 
         $validated = $request->validate([
             'title'                => 'required|string|max:255',
+            'sub_title'            => 'nullable|string|max:255',
             'application_id'       => 'required|exists:applications,id',
             'content'              => 'required|string',
             'status'               => 'required|in:draft,published',
             'sections'             => 'nullable|array',
             'sections.*.sub_title' => 'required_with:sections|string|max:255',
             'sections.*.content'   => 'required_with:sections|string',
+            'sections.*.level'     => 'required_with:sections|integer|in:2,3',
         ]);
         
         $user = auth()->user();
@@ -122,13 +124,23 @@ class DocumentController extends Controller
 
         // Save sections if provided (e.g. from markdown import)
         if (!empty($validated['sections'])) {
-            foreach ($validated['sections'] as $index => $section) {
-                $document->sections()->create([
+            $lastParentId = null;
+
+            foreach ($validated['sections'] as $index => $sectionData) {
+                $level = $sectionData['level'] ?? 2;
+                
+                $section = $document->sections()->create([
                     'user_id'    => $user->id,
-                    'sub_title'  => $section['sub_title'],
-                    'content'    => $section['content'],
+                    'sub_title'  => $sectionData['sub_title'],
+                    'content'    => $sectionData['content'],
+                    'level'      => $level,
+                    'parent_id'  => ($level === 3) ? $lastParentId : null,
                     'sort_order' => $index + 1,
                 ]);
+
+                if ($level === 2) {
+                    $lastParentId = $section->id;
+                }
             }
         }
 

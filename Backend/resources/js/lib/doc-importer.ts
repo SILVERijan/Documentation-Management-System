@@ -4,7 +4,7 @@ import { marked } from 'marked';
 interface ImportedDoc {
     title: string;
     intro: string;
-    sections: { sub_title: string; content: string }[];
+    sections: { sub_title: string; content: string; level: number }[];
 }
 
 export const importDocument = async (file: File): Promise<ImportedDoc> => {
@@ -25,10 +25,11 @@ const parseMarkdown = async (text: string, filename: string): Promise<ImportedDo
     const lines = text.split('\n');
     let title = '';
     let introMarkdown = '';
-    const sections: { sub_title: string; content: string }[] = [];
+    const sections: { sub_title: string; content: string; level: number }[] = [];
 
     let currentSectionTitle = '';
     let currentSectionContent = '';
+    let currentSectionLevel = 2;
     let foundTitle = false;
 
     for (const line of lines) {
@@ -38,19 +39,21 @@ const parseMarkdown = async (text: string, filename: string): Promise<ImportedDo
             continue;
         }
 
-        if (line.startsWith('## ')) {
+        const h2Match = line.startsWith('## ');
+        const h3Match = line.startsWith('### ');
+
+        if (h2Match || h3Match) {
             // Save previous section if it exists
             if (currentSectionTitle) {
                 sections.push({
                     sub_title: currentSectionTitle,
-                    content: await marked.parse(currentSectionContent.trim())
+                    content: await marked.parse(currentSectionContent.trim()) as string,
+                    level: currentSectionLevel
                 });
-            } else if (!foundTitle && !title) {
-                 // If no H1 found, use first H2 as title? 
-                 // Better to just treat everything before first H2 as intro
             }
             
-            currentSectionTitle = line.replace('## ', '').trim();
+            currentSectionLevel = h2Match ? 2 : 3;
+            currentSectionTitle = line.replace(h2Match ? '## ' : '### ', '').trim();
             currentSectionContent = '';
             continue;
         }
@@ -66,7 +69,8 @@ const parseMarkdown = async (text: string, filename: string): Promise<ImportedDo
     if (currentSectionTitle) {
         sections.push({
             sub_title: currentSectionTitle,
-            content: await marked.parse(currentSectionContent.trim())
+            content: await marked.parse(currentSectionContent.trim()) as string,
+            level: currentSectionLevel
         });
     }
 
@@ -86,15 +90,15 @@ const parseHtml = (html: string): ImportedDoc => {
     // Remove the h1 from the doc so it's not in the intro
     doc.querySelector('h1')?.remove();
 
-    const sections: { sub_title: string; content: string }[] = [];
-    const h2s = Array.from(doc.querySelectorAll('h2'));
+    const sections: { sub_title: string; content: string; level: number }[] = [];
+    const headings = Array.from(doc.querySelectorAll('h2, h3'));
     
     let introHtml = '';
     
-    if (h2s.length > 0) {
-        // Everything before first H2 is intro
+    if (headings.length > 0) {
+        // Everything before first heading is intro
         let currentNode = doc.body.firstChild;
-        while (currentNode && currentNode !== h2s[0]) {
+        while (currentNode && currentNode !== headings[0]) {
             if (currentNode instanceof HTMLElement) {
                 introHtml += currentNode.outerHTML;
             } else {
@@ -104,12 +108,12 @@ const parseHtml = (html: string): ImportedDoc => {
         }
 
         // Process sections
-        h2s.forEach((h2, index) => {
+        headings.forEach((heading, index) => {
             let content = '';
-            let next = h2.nextSibling;
-            const nextH2 = h2s[index + 1];
+            let next = heading.nextSibling;
+            const nextHeading = headings[index + 1];
             
-            while (next && next !== nextH2) {
+            while (next && next !== nextHeading) {
                 if (next instanceof HTMLElement) {
                     content += next.outerHTML;
                 } else {
@@ -119,8 +123,9 @@ const parseHtml = (html: string): ImportedDoc => {
             }
             
             sections.push({
-                sub_title: h2.textContent || 'Untitled Section',
-                content: content.trim()
+                sub_title: heading.textContent || 'Untitled Section',
+                content: content.trim(),
+                level: heading.tagName.toLowerCase() === 'h2' ? 2 : 3
             });
         });
     } else {
