@@ -80,11 +80,4 @@ class User extends Authenticatable
         return $this->hasMany(Document::class);
     }
 
-    /**
-     * Activity logs for the user.
-     */
-    public function activityLogs()
-    {
-        return $this->hasMany(ActivityLog::class);
-    }
 }

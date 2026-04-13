@@ -14,9 +14,10 @@ class DocumentationController extends Controller
     {
         $application = Application::where('slug', $appSlug)->firstOrFail();
 
-        // Get all published documents for the left nav bar
+        // Get all published documents for the left nav bar (Select only necessary columns)
         $documents = Document::where('application_id', $application->id)
                              ->where('status', 'published')
+                             ->select(['id', 'title', 'slug', 'status', 'application_id', 'sort_order', 'created_at'])
                              ->orderBy('sort_order', 'asc')
                              ->orderBy('created_at', 'asc')
                              ->get();
@@ -31,21 +32,20 @@ class DocumentationController extends Controller
         }
 
         if ($docSlug) {
-            $document = $documents->firstWhere('slug', $docSlug);
-            if (!$document) {
+            $currentDocMeta = $documents->firstWhere('slug', $docSlug);
+            if (!$currentDocMeta) {
                 abort(404, 'Document not found.');
             }
         } else {
-            $document = $documents->first();
-            return redirect()->route('app.show.doc', ['appSlug' => $appSlug, 'docSlug' => $document->slug]);
+            $currentDocMeta = $documents->first();
+            return redirect()->route('app.show.doc', ['appSlug' => $appSlug, 'docSlug' => $currentDocMeta->slug]);
         }
 
-        // Increment view count
-        $document->increment('view_count');
+        // Fetch full document with content
+        $document = Document::with('attachments')->findOrFail($currentDocMeta->id);
 
-        // Load sections and attachments
-        $document->load('attachments');
-        $sections = $document->sections()->get();
+        // Load sections
+        $sections = $document->sections()->get(['id', 'sub_title', 'content', 'level', 'sort_order']);
 
         // Build TOC from sections' sub_titles
         $toc = $sections->map(fn($s) => [
@@ -104,7 +104,10 @@ class DocumentationController extends Controller
                 $q->where('title', 'like', "%{$query}%")
                   ->orWhere('content', 'like', "%{$query}%");
             })
-            ->with('application')
+            ->with(['application' => function($q) {
+                $q->select('id', 'name', 'slug', 'color');
+            }])
+            ->select(['id', 'title', 'slug', 'application_id', 'status'])
             ->limit(8)
             ->get()
             ->map(function($doc) {

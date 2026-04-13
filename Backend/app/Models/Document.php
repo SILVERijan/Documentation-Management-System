@@ -61,13 +61,6 @@ class Document extends Model
         return $this->hasMany(DocumentAttachment::class);
     }
 
-    /**
-     * Versions (history) of this document.
-     */
-    public function versions()
-    {
-        return $this->hasMany(DocumentVersion::class);
-    }
 
     /**
      * Sections within this document (sub-title + content blocks).

@@ -1,12 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\Admin\AdminDashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-use App\Http\Controllers\Admin\AdminDashboardController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -29,7 +27,6 @@ Route::get('/dashboard', function () {
 Route::get('/docs/{appSlug}/{docSlug?}', [\App\Http\Controllers\DocumentationController::class, 'show'])
     ->name('app.show.doc');
 
-# ... (existing search route)
 Route::get('/api/search/docs', [\App\Http\Controllers\DocumentationController::class, 'search'])->name('docs.search');
 Route::get('/attachments/{attachment}/download', [\App\Http\Controllers\User\DocumentAttachmentController::class, 'download'])->name('user.attachments.download');
 
@@ -63,10 +60,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/profile/theme', [ProfileController::class, 'updateTheme'])->name('profile.theme');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::get('/original', function () {
-    return Inertia::render('FrontendOriginal');
 });
 
 require __DIR__.'/auth.php';
