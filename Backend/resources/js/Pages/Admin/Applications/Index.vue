@@ -106,7 +106,7 @@ const deleteApp = (app: any) => {
               :href="item.href || '#'"
               :class="cn(
                 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all group',
-                item.active ? 'bg-indigo-500/10 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                item.active ? 'bg-indigo-500/10 text-slate-900 dark:text-white' : 'text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
               )"
             >
               <component :is="item.icon" class="w-4 h-4 shrink-0" />
@@ -121,7 +121,7 @@ const deleteApp = (app: any) => {
       <!-- Header -->
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 class="text-3xl font-bold tracking-tight text-white mb-1">Application Management</h1>
+          <h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-1">Application Management</h1>
           <p class="text-gray-500 text-sm">Manage system modules, statuses, and core configuration.</p>
         </div>
         <div class="flex items-center gap-2">
@@ -133,37 +133,37 @@ const deleteApp = (app: any) => {
       </div>
 
       <!-- Applications Table -->
-      <div class="bg-[#161616] border border-[#262626] rounded-3xl overflow-hidden shadow-2xl">
+      <div class="bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] rounded-3xl overflow-hidden shadow-2xl">
          <div class="overflow-x-auto">
              <table class="w-full text-left text-sm text-gray-400">
-                 <thead class="bg-[#1a1a1a] text-xs uppercase text-gray-500 border-b border-[#262626]">
+                 <thead class="bg-slate-50 dark:bg-[#1a1a1a] text-xs uppercase text-gray-500 border-b border-slate-200 dark:border-[#262626]">
                      <tr>
                          <th class="px-6 py-4 font-bold tracking-wider">Application Details</th>
                          <th class="px-6 py-4 font-bold tracking-wider">Slug URL</th>
                          <th class="px-6 py-4 font-bold tracking-wider">Status</th>
-                         <th class="px-6 py-4 font-bold tracking-wider border-l border-[#262626] text-center">Documents</th>
+                         <th class="px-6 py-4 font-bold tracking-wider border-l border-slate-200 dark:border-[#262626] text-center">Documents</th>
                          <th class="px-6 py-4 font-bold tracking-wider text-right">Actions</th>
                      </tr>
                  </thead>
-                 <tbody class="divide-y divide-[#262626]">
-                     <tr v-for="app in props.applications" :key="app.id" class="hover:bg-[#1f1f1f] transition-colors group">
+                 <tbody class="divide-y divide-slate-200 dark:divide-[#262626]">
+                     <tr v-for="app in props.applications" :key="app.id" class="hover:bg-slate-100 dark:hover:bg-[#1f1f1f] transition-colors group">
                          <td class="px-6 py-4 w-96">
                              <div class="flex items-start gap-4">
                                 <div 
-                                    class="w-10 h-10 mt-0.5 rounded-xl border border-[#262626] flex flex-shrink-0 items-center justify-center text-white font-bold shadow-inner transition-all group-hover:scale-110" 
+                                    class="w-10 h-10 mt-0.5 rounded-xl border border-slate-200 dark:border-[#262626] flex flex-shrink-0 items-center justify-center text-white font-bold shadow-inner transition-all group-hover:scale-110" 
                                     :style="`background-color: var(--tw-color-${app.color || 'indigo'}-500)`"
-                                    :class="app.color ? `bg-${app.color}-500/10` : 'bg-[#262626]'"
+                                    :class="app.color ? `bg-${app.color}-500/10` : 'bg-slate-200 dark:bg-[#262626]'"
                                 >
                                     <Layers class="w-4 h-4" :class="app.color ? `text-${app.color}-400` : 'text-gray-400'" />
                                 </div>
                                 <div class="flex flex-col pr-4">
-                                    <span class="text-white font-bold group-hover:text-indigo-300 transition-colors">{{ app.name }}</span>
+                                    <span class="text-slate-900 dark:text-white font-bold group-hover:text-indigo-300 transition-colors">{{ app.name }}</span>
                                     <span class="text-[11px] text-gray-500 mt-1 line-clamp-2 leading-relaxed">{{ app.description }}</span>
                                 </div>
                              </div>
                          </td>
                          <td class="px-6 py-4">
-                             <span class="px-2.5 py-1 rounded-lg bg-[#262626] text-gray-400 font-mono text-[10px]">/docs/{{ app.slug }}</span>
+                             <span class="px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-[#262626] text-gray-400 font-mono text-[10px]">/docs/{{ app.slug }}</span>
                          </td>
                          <td class="px-6 py-4">
                              <div :class="cn(
@@ -177,8 +177,8 @@ const deleteApp = (app: any) => {
                                  {{ app.status }}
                              </div>
                          </td>
-                         <td class="px-6 py-4 border-l border-[#262626] text-center">
-                             <span class="text-xl font-black text-white group-hover:text-indigo-400 transition-colors">{{ app.documents_count }}</span>
+                         <td class="px-6 py-4 border-l border-slate-200 dark:border-[#262626] text-center">
+                             <span class="text-xl font-black text-slate-900 dark:text-white group-hover:text-indigo-400 transition-colors">{{ app.documents_count }}</span>
                          </td>
                          <td class="px-6 py-4 text-right">
                              <div class="flex items-center justify-end gap-2">
@@ -208,7 +208,7 @@ const deleteApp = (app: any) => {
 
     <!-- Application Form Modal -->
     <Modal :show="showModal" @close="showModal = false" maxWidth="md">
-        <div class="p-6 bg-[#161616] border border-[#262626] overflow-hidden">
+        <div class="p-6 bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] overflow-hidden">
             <h2 class="text-xl font-bold text-white mb-6">
                 {{ editingApp ? 'Edit Application' : 'Create New Application' }}
             </h2>
@@ -216,11 +216,11 @@ const deleteApp = (app: any) => {
             <form @submit.prevent="submitForm" class="space-y-5">
                 <!-- Name -->
                 <div>
-                    <InputLabel for="name" value="Application Name" class="text-gray-300 mb-1" />
+                    <InputLabel for="name" value="Application Name" class="text-slate-700 dark:text-gray-300 mb-1" />
                     <TextInput
                         id="name"
                         type="text"
-                        class="mt-1 block w-full bg-[#1a1a1a] border-[#333] text-white focus:border-indigo-500 focus:ring-indigo-500 placeholder-gray-600"
+                        class="mt-1 block w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#333] text-white focus:border-indigo-500 focus:ring-indigo-500 placeholder-gray-600"
                         v-model="form.name"
                         required
                         placeholder="e.g. Finance Hub"
@@ -231,10 +231,10 @@ const deleteApp = (app: any) => {
 
                 <!-- Description -->
                 <div>
-                    <InputLabel for="description" value="Module Description" class="text-gray-300 mb-1" />
+                    <InputLabel for="description" value="Module Description" class="text-slate-700 dark:text-gray-300 mb-1" />
                     <textarea
                         id="description"
-                        class="mt-1 block w-full rounded-lg bg-[#1a1a1a] border-[#333] text-white focus:border-indigo-500 focus:ring-indigo-500 shadow-sm text-sm p-3 min-h-[100px] placeholder-gray-600"
+                        class="mt-1 block w-full rounded-lg bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#333] text-white focus:border-indigo-500 focus:ring-indigo-500 shadow-sm text-sm p-3 min-h-[100px] placeholder-gray-600"
                         v-model="form.description"
                         required
                         placeholder="Brief overview of what this application handles..."
@@ -244,11 +244,11 @@ const deleteApp = (app: any) => {
 
                 <!-- Status -->
                 <div>
-                    <InputLabel for="status" value="Operational Status" class="text-gray-300 mb-1" />
+                    <InputLabel for="status" value="Operational Status" class="text-slate-700 dark:text-gray-300 mb-1" />
                     <select 
                         id="status" 
                         v-model="form.status" 
-                        class="mt-1 block w-full bg-[#1a1a1a] border-[#333] text-white rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm h-10 px-3 transition-all"
+                        class="mt-1 block w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#333] text-white rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm h-10 px-3 transition-all"
                     >
                         <option value="active">Active (Operational)</option>
                         <option value="inactive">Inactive</option>
@@ -258,7 +258,7 @@ const deleteApp = (app: any) => {
 
                 <!-- Color Selection -->
                 <div>
-                    <InputLabel value="Brand Color" class="text-gray-300 mb-2" />
+                    <InputLabel value="Brand Color" class="text-slate-700 dark:text-gray-300 mb-2" />
                     <div class="grid grid-cols-7 gap-2">
                         <button
                             v-for="color in colorOptions"
@@ -279,7 +279,7 @@ const deleteApp = (app: any) => {
                 </div>
 
                 <!-- Actions -->
-                <div class="mt-8 flex justify-end gap-3 pt-6 border-t border-[#262626]">
+                <div class="mt-8 flex justify-end gap-3 pt-6 border-t border-slate-200 dark:border-[#262626]">
                     <button 
                         type="button" 
                         @click="showModal = false"

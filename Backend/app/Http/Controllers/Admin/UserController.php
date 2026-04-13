@@ -19,7 +19,7 @@ class UserController extends Controller
 
         return Inertia::render('Admin/Users/Index', [
             'users' => $users,
-            'applications' => $applications
+            'assignableApplications' => $applications
         ]);
     }
 

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import ThemeSwitcher from '@/Components/Common/ThemeSwitcher.vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 
 defineProps<{
   canLogin?: boolean;
@@ -10,7 +12,7 @@ defineProps<{
 <template>
   <Head title="Welcome — SILVER Docs" />
 
-  <div class="welcome-root">
+  <div class="welcome-root bg-[#f8fafc] dark:bg-[#0a0a0f] text-slate-900 dark:text-white transition-colors duration-300">
     <!-- Animated background orbs -->
     <div class="bg-orb orb-1"></div>
     <div class="bg-orb orb-2"></div>
@@ -23,16 +25,11 @@ defineProps<{
       <!-- ── Navbar ── -->
       <header class="navbar">
         <div class="navbar-brand">
-          <div class="brand-icon">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="brand-svg">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <span class="brand-name">SILVER <span class="brand-accent">Docs</span></span>
+          <ApplicationLogo size="sm" show-name />
         </div>
 
-        <nav class="navbar-actions" v-if="canLogin">
+        <nav class="navbar-actions flex items-center gap-4" v-if="canLogin">
+          <ThemeSwitcher />
           <Link :href="route('login')" class="btn-login" id="nav-login-btn">
             Log In
           </Link>
@@ -124,7 +121,6 @@ defineProps<{
 /* ── Root ── */
 .welcome-root {
   min-height: 100vh;
-  background: #0a0a0f;
   font-family: 'Inter', sans-serif;
   position: relative;
   overflow: hidden;
@@ -142,19 +138,27 @@ defineProps<{
 }
 .orb-1 {
   width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
+  top: -200px; left: -200px;
+  animation: floatOrb 12s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
   top: -200px; left: -200px;
   animation: floatOrb 12s ease-in-out infinite;
 }
 .orb-2 {
   width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
   bottom: -100px; right: -100px;
   animation: floatOrb 16s ease-in-out infinite reverse;
 }
+
 .orb-3 {
   width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(59,130,246,0.10) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(59,130,246,0.05) 0%, transparent 70%);
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   animation: floatOrb 20s ease-in-out infinite;
@@ -195,7 +199,15 @@ defineProps<{
   align-items: center;
   justify-content: space-between;
   padding: 24px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(0,0,0,0.03);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.03);
 }
 
 .navbar-brand {
@@ -236,12 +248,28 @@ defineProps<{
   gap: 6px;
   padding: 8px 20px;
   border-radius: 8px;
-  border: 1px solid rgba(99,102,241,0.5);
-  color: #a5b4fc;
+  border: 1px solid rgba(99,102,241,0.2);
+  color: #6366f1;
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  background: rgba(99,102,241,0.08);
+  background: rgba(99,102,241,0.05);
+  transition: all 0.2s ease;
+  letter-spacing: -0.1px;
+}
+
+.btn-login {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(99,102,241,0.2);
+  color: #6366f1;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(99,102,241,0.05);
   transition: all 0.2s ease;
   letter-spacing: -0.1px;
 }
@@ -297,7 +325,17 @@ defineProps<{
 .hero-title {
   font-size: clamp(40px, 6vw, 72px);
   font-weight: 900;
-  color: #fff;
+  color: #0f172a;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin: 0;
+  animation: fadeInUp 0.7s ease 0.1s both;
+}
+
+.hero-title {
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 900;
+  color: #0f172a;
   line-height: 1.05;
   letter-spacing: -2px;
   margin: 0;
@@ -315,7 +353,17 @@ defineProps<{
   max-width: 560px;
   font-size: 16px;
   font-weight: 400;
-  color: rgba(255,255,255,0.45);
+  color: #4b5563;
+  line-height: 1.7;
+  margin: 0;
+  animation: fadeInUp 0.7s ease 0.2s both;
+}
+
+.hero-subtitle {
+  max-width: 560px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #4b5563;
   line-height: 1.7;
   margin: 0;
   animation: fadeInUp 0.7s ease 0.2s both;
@@ -340,8 +388,8 @@ defineProps<{
 }
 
 .feature-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.07);
+  background: #fff;
+  border: 1px solid #e2e8f0;
   border-radius: 16px;
   padding: 20px;
   display: flex;
@@ -350,7 +398,21 @@ defineProps<{
   text-align: left;
   transition: all 0.25s ease;
   cursor: default;
-  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+.feature-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  text-align: left;
+  transition: all 0.25s ease;
+  cursor: default;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
 }
 
 .feature-card:hover {
@@ -385,14 +447,22 @@ defineProps<{
 .feature-text h3 {
   font-size: 13px;
   font-weight: 700;
-  color: #e2e8f0;
+  color: #334155;
+  margin: 0 0 6px;
+  letter-spacing: -0.2px;
+}
+
+.feature-text h3 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
   margin: 0 0 6px;
   letter-spacing: -0.2px;
 }
 
 .feature-text p {
   font-size: 12px;
-  color: rgba(255,255,255,0.38);
+  color: #6b7280;
   line-height: 1.6;
   margin: 0;
 }
@@ -439,10 +509,15 @@ defineProps<{
 .site-footer {
   text-align: center;
   padding: 24px 0;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.2);
+  border-top: 1px solid rgba(0,0,0,0.03);
+  color: #64748b;
   font-size: 12px;
   font-weight: 500;
+}
+
+:global(.dark) .site-footer {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.2);
 }
 
 /* ── Keyframes ── */
@@ -454,5 +529,48 @@ defineProps<{
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<style>
+/* Global Dark Mode Overrides for Welcome Page */
+html.dark .welcome-root .orb-1 {
+  background: radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%);
+}
+html.dark .welcome-root .orb-2 {
+  background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);
+}
+html.dark .welcome-root .orb-3 {
+  background: radial-gradient(circle, rgba(59,130,246,0.10) 0%, transparent 70%);
+}
+html.dark .welcome-root .navbar {
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+html.dark .welcome-root .btn-login {
+  border: 1px solid rgba(99,102,241,0.5);
+  color: #a5b4fc;
+  background: rgba(99,102,241,0.08);
+}
+html.dark .welcome-root .hero-title {
+  color: #fff;
+}
+html.dark .welcome-root .hero-subtitle {
+  color: rgba(255,255,255,0.45);
+}
+html.dark .welcome-root .feature-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow: none;
+  backdrop-filter: blur(10px);
+}
+html.dark .welcome-root .feature-text h3 {
+  color: #e2e8f0;
+}
+html.dark .welcome-root .feature-text p {
+  color: rgba(255,255,255,0.38);
+}
+html.dark .welcome-root .site-footer {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.2);
 }
 </style>

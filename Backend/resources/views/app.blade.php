@@ -15,8 +15,29 @@
         @routes
         @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
+
+        <script>
+            let initTheme = "{{ auth()->check() ? auth()->user()->theme_preference : 'system' }}";
+            let useDark = false;
+
+            if (initTheme === 'dark') {
+                useDark = true;
+            } else if (initTheme === 'light') {
+                useDark = false;
+            } else {
+                useDark = localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            }
+            
+            if (useDark) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.style.backgroundColor = '#0a0a0f';
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.style.backgroundColor = '#f8fafc';
+            }
+        </script>
     </head>
-    <body class="font-sans antialiased bg-[#0f0f0f]">
+    <body class="font-sans antialiased bg-slate-50 dark:bg-[#0a0a0f] text-slate-900 dark:text-[#ededed] transition-colors duration-300">
         @inertia
     </body>
 </html>

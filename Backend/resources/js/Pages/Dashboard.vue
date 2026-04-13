@@ -42,7 +42,7 @@ const tocItems = [
               href="#"
               :class="cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all group',
-                app.active ? 'bg-indigo-500/10 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                app.active ? 'bg-indigo-500/10 text-white' : 'text-gray-400 hover:text-slate-900 dark:text-white hover:bg-white/5'
               )"
             >
               <div :class="cn('w-2 h-2 rounded-full', app.color)" />
@@ -63,7 +63,7 @@ const tocItems = [
             href="#"
             :class="cn(
                 'block px-3 py-1.5 rounded-lg text-sm font-medium transition-all',
-                doc.active ? 'bg-indigo-500/10 text-indigo-400' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                doc.active ? 'bg-indigo-500/10 text-indigo-400' : 'text-gray-400 hover:text-slate-900 dark:text-white hover:bg-white/5'
             )"
           >
             {{ doc.name }}
@@ -76,17 +76,17 @@ const tocItems = [
     <div class="space-y-12">
       <!-- Doc Header -->
       <header class="space-y-6">
-        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">Onboarding Guide</h1>
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">Onboarding Guide</h1>
         
         <div class="flex items-center gap-6 text-sm">
            <div class="flex flex-col gap-1">
                <span class="text-gray-500 font-bold uppercase tracking-wider text-[10px]">Application</span>
-               <span class="text-white font-medium">Human Resources</span>
+               <span class="text-slate-900 dark:text-white font-medium">Human Resources</span>
            </div>
            <div class="h-8 w-px bg-[#262626]" />
            <div class="flex flex-col gap-1">
                <span class="text-gray-500 font-bold uppercase tracking-wider text-[10px]">Updated</span>
-               <span class="text-white font-medium">2 days ago</span>
+               <span class="text-slate-900 dark:text-white font-medium">2 days ago</span>
            </div>
            <div class="h-8 w-px bg-[#262626]" />
            <Badge variant="published">Published</Badge>
@@ -99,15 +99,15 @@ const tocItems = [
           Welcome to the company. This guide walks you through everything you need to get started in your first week — from setting up your accounts to understanding our team culture.
         </p>
 
-        <section id="getting-started" class="space-y-4 pt-10 border-t border-[#262626]">
-          <h2 class="text-2xl font-bold text-white">Getting started</h2>
+        <section id="getting-started" class="space-y-4 pt-10 border-t border-slate-200 dark:border-[#262626]">
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Getting started</h2>
           <p class="text-gray-400 leading-relaxed">
             Before your first day, make sure you have received your credentials via email. Your IT team will have set up your primary accounts.
           </p>
         </section>
 
-        <section id="account-setup" class="space-y-4 pt-10 border-t border-[#262626]">
-          <h2 class="text-2xl font-bold text-white">Account setup</h2>
+        <section id="account-setup" class="space-y-4 pt-10 border-t border-slate-200 dark:border-[#262626]">
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Account setup</h2>
           <p class="text-gray-400 leading-relaxed">
             Log in to the company portal using the temporary password provided. You will be prompted to change it on your first login.
           </p>

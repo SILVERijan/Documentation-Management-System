@@ -3,6 +3,20 @@
 @tailwind utilities;
 
 @layer base {
+  html, body {
+    @apply bg-slate-50;
+  }
+
+  /* html IS the dark root, so we need html.dark not .dark html */
+  html.dark {
+    background-color: #0a0a0f;
+  }
+
+  /* body is a child of html.dark, so .dark body works correctly */
+  .dark body {
+    background-color: #0a0a0f;
+  }
+
   .prose-invert {
     --tw-prose-body: #9ca3af;
     --tw-prose-headings: #ffffff;

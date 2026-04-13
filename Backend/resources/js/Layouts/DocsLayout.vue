@@ -6,6 +6,7 @@ import { Search, ChevronDown, Grid, Settings, LogOut, FileText, Loader2, CornerD
 import { cn } from '@/lib/utils'
 import axios from 'axios'
 import ToastHandler from '@/Components/Common/ToastHandler.vue'
+import ThemeSwitcher from '@/Components/Common/ThemeSwitcher.vue'
 
 const page = usePage()
 const isAppsOpen = ref(false)
@@ -60,23 +61,23 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#0f0f0f] text-[#ededed] font-['Inter',_sans-serif] selection:bg-indigo-500/30">
+  <div class="min-h-screen bg-slate-50 dark:bg-[#0a0a0f] text-slate-900 dark:text-[#ededed] font-['Inter',_sans-serif] selection:bg-indigo-500/30 transition-colors duration-300">
     <Head title="SILVER Documentations" />
     <ToastHandler />
 
     <!-- Top Navigation Bar -->
-    <header class="h-14 border-b border-[#262626] bg-[#0f0f0f]/80 backdrop-blur-md sticky top-0 z-50 px-6 flex items-center justify-between">
+    <header class="h-14 border-b border-slate-200/60 dark:border-[#262626] bg-white/90 dark:bg-[#0a0a0f]/80 backdrop-blur-md sticky top-0 z-50 px-6 flex items-center justify-between transition-colors duration-300 shadow-sm shadow-slate-200/40 dark:shadow-none">
       <div class="flex items-center gap-10">
         <Link href="/" class="flex items-center gap-2.5 group shrink-0">
           <ApplicationLogo size="sm" :show-name="true" />
-          <span v-if="$page.props.auth?.user?.role === 'admin'" class="ml-2 px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-black uppercase tracking-widest border border-indigo-500/20">Admin</span>
+          <span v-if="$page.props.auth?.user?.role === 'admin'" class="ml-2 px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest border border-indigo-500/20">Admin</span>
         </Link>
 
         <!-- Applications Selector (Section) -->
         <div class="relative">
           <button 
             @click="isAppsOpen = !isAppsOpen"
-            class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-bold text-gray-400 hover:text-white hover:bg-white/5 transition-all"
+            class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-bold text-slate-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-all"
           >
             <Grid class="w-4 h-4" />
             Applications
@@ -84,8 +85,8 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
           </button>
 
           <!-- Apps Dropdown -->
-          <div v-if="isAppsOpen" class="absolute top-full left-0 mt-2 w-64 bg-[#161616] border border-[#262626] rounded-xl shadow-2xl p-2 z-[60] animate-in fade-in zoom-in-95 duration-200">
-            <div class="px-3 py-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest border-b border-[#262626] mb-2">Select Application</div>
+          <div v-if="isAppsOpen" class="absolute top-full left-0 mt-2 w-64 bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] rounded-xl shadow-2xl p-2 z-[60] animate-in fade-in zoom-in-95 duration-200">
+            <div class="px-3 py-2 text-[10px] font-bold text-slate-400 dark:text-gray-500 uppercase tracking-widest border-b border-slate-100 dark:border-[#262626] mb-2">Select Application</div>
             <div class="space-y-1">
               <div
                 v-for="app in navApplications"
@@ -94,7 +95,7 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
                 <Link
                   v-if="app.slug"
                   :href="app.slug ? route('app.show.doc', { appSlug: app.slug }) : '#'"
-                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all group"
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-all group"
                 >
                   <div :class="cn('w-2 h-2 rounded-full shrink-0', app.color || 'bg-indigo-400')" />
                   <div class="flex flex-col gap-0.5 min-w-0 flex-1">
@@ -133,18 +134,18 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
             <template v-else>
                 <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-indigo-400 transition-colors" />
             </template>
-            <input 
-                v-model="searchQuery"
-                type="text" 
-                @focus="isSearchOpen = searchQuery.length >= 2"
-                @blur="onBlur"
-                placeholder="Search docs..." 
-                class="w-full h-9 bg-[#1a1a1a] border border-[#262626] rounded-lg pl-10 pr-4 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all placeholder:text-gray-600"
-            >
+                <input 
+                    v-model="searchQuery"
+                    type="text" 
+                    @focus="isSearchOpen = searchQuery.length >= 2"
+                    @blur="onBlur"
+                    placeholder="Search docs..." 
+                    class="w-full h-9 bg-slate-100 dark:bg-[#1a1a1a] border border-transparent dark:border-[#262626] rounded-lg pl-10 pr-4 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all placeholder:text-slate-400 dark:placeholder:text-gray-600 text-slate-900 dark:text-white"
+                >
         </div>
 
         <!-- Search Results Dropdown -->
-        <div v-if="isSearchOpen" class="absolute top-full left-0 right-0 mt-2 bg-[#161616] border border-[#262626] rounded-xl shadow-2xl overflow-hidden z-[60] animate-in fade-in slide-in-from-top-2 duration-200">
+        <div v-if="isSearchOpen" class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] rounded-xl shadow-2xl overflow-hidden z-[60] animate-in fade-in slide-in-from-top-2 duration-200">
             <div class="p-2 max-h-[400px] overflow-y-auto">
                 <div v-if="searchResults.length > 0" class="space-y-1">
                     <div class="px-3 py-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest flex items-center justify-between">
@@ -155,7 +156,7 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
                         v-for="result in searchResults"
                         :key="result.id"
                         :href="route('app.show.doc', { appSlug: result.app_slug, docSlug: result.slug })"
-                        class="flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-all group"
+                        class="flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-all group"
                         @click="isSearchOpen = false; searchQuery = ''"
                     >
                         <div class="flex items-center gap-3 min-w-0">
@@ -163,7 +164,7 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
                                 <FileText class="w-4 h-4" />
                             </div>
                             <div class="flex flex-col min-w-0">
-                                <span class="text-sm font-bold text-gray-200 group-hover:text-white truncate">{{ result.title }}</span>
+                                <span class="text-sm font-bold text-gray-700 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-white truncate">{{ result.title }}</span>
                                 <div class="flex items-center gap-2">
                                     <div :class="cn('w-1.5 h-1.5 rounded-full', result.app_color || 'bg-indigo-500')" />
                                     <span class="text-[10px] text-gray-500 font-medium">{{ result.app_name }}</span>
@@ -178,7 +179,7 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
                     <p class="text-xs font-medium">No documents matching your search.</p>
                 </div>
             </div>
-            <div class="bg-[#1a1a1a] px-4 py-2 border-t border-[#262626] flex items-center justify-between">
+            <div class="bg-slate-50 dark:bg-[#1a1a1a] px-4 py-2 border-t border-slate-100 dark:border-[#262626] flex items-center justify-between">
                 <div class="flex items-center gap-4">
                     <span class="text-[9px] text-gray-500 flex items-center gap-1"><kbd class="bg-[#262626] px-1 rounded text-gray-400 border border-white/5">ESC</kbd> to close</span>
                 </div>
@@ -194,7 +195,7 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
                 <Link 
                     v-if="$page.props.auth.user.role === 'admin' && !route().current('admin.*') && !route().current('profile.edit')"
                     :href="route('admin.dashboard')" 
-                    class="text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition-colors border-r border-[#262626] pr-8"
+                    class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-white transition-colors border-r border-gray-200 dark:border-[#262626] pr-8"
                 >
                     Admin Portal
                 </Link>
@@ -202,7 +203,7 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
                 <Link 
                     v-if="$page.props.auth.user.role === 'admin' && (route().current('admin.*') || route().current('profile.edit'))"
                     :href="route('dashboard')" 
-                    class="text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition-colors border-r border-[#262626] pr-8"
+                    class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-white transition-colors border-r border-gray-200 dark:border-[#262626] pr-8"
                 >
                     Admin Portal
                 </Link>
@@ -211,14 +212,16 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
             <Link 
                 v-if="$page.props.auth.user.role === 'user'"
                 :href="route('user.documents.index')" 
-                class="text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition-colors border-r border-[#262626] pr-8"
+                class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-white transition-colors border-r border-slate-200 dark:border-[#262626] pr-8"
             >
                 User Portal
             </Link>
             
-            <div class="relative">
+            <div class="relative flex items-center gap-4">
+              <ThemeSwitcher />
+              
               <button @click="isUserOpen = !isUserOpen" class="flex items-center gap-3 group">
-                  <span class="text-xs font-bold text-gray-400 group-hover:text-white transition-colors hidden lg:block">{{ $page.props.auth.user.name }}</span>
+                  <span class="text-xs font-bold text-gray-500 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-white transition-colors hidden lg:block">{{ $page.props.auth.user.name }}</span>
                   <div class="w-8 h-8 rounded-full ring-2 ring-indigo-500/20 group-hover:ring-indigo-500/40 transition-all overflow-hidden bg-indigo-600 flex items-center justify-center text-xs font-black">
                       <img
                           v-if="$page.props.auth.user.avatar"
@@ -231,17 +234,17 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
               </button>
 
               <!-- User Dropdown -->
-              <div v-if="isUserOpen" class="absolute top-full right-0 mt-2 w-48 bg-[#161616] border border-[#262626] rounded-xl shadow-2xl p-2 z-[60] animate-in fade-in zoom-in-95 duration-200">
+              <div v-if="isUserOpen" class="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] rounded-xl shadow-2xl p-2 z-[60] animate-in fade-in zoom-in-95 duration-200">
                 <Link 
                     :href="route('user.documents.index')"
-                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all"
+                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-all"
                 >
                     <FileText class="w-4 h-4" />
                     My Documents
                 </Link>
                 <Link 
                     :href="route('profile.edit')"
-                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all"
+                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-all"
                 >
                     <Settings class="w-4 h-4" />
                     Profile
@@ -263,9 +266,10 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
         <template v-else>
             <Link 
                 :href="route('login')" 
-                class="text-xs font-bold uppercase tracking-wider text-white hover:text-indigo-300 transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-lg"
+                class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-white hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors bg-indigo-50 dark:bg-white/5 hover:bg-indigo-100 dark:hover:bg-white/10 px-4 py-2 rounded-lg flex items-center gap-4"
             >
                 Log In
+                <ThemeSwitcher />
             </Link>
         </template>
       </div>
@@ -273,19 +277,19 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
 
     <div class="flex h-[calc(100vh-3.5rem)]">
       <!-- Left Sidebar (Applications & Docs) -->
-      <aside v-if="$slots['left-sidebar']" class="w-72 border-r border-[#262626] bg-[#0f0f0f] flex flex-col shrink-0 overflow-y-auto hidden lg:flex">
+      <aside v-if="$slots['left-sidebar']" class="w-72 border-r border-slate-200/60 dark:border-[#262626] bg-slate-50/50 dark:bg-[#0a0a0f] flex flex-col shrink-0 overflow-y-auto hidden lg:flex transition-colors duration-300">
         <slot name="left-sidebar" />
       </aside>
 
       <!-- Main Content Area -->
-      <main class="flex-1 flex flex-col min-w-0 overflow-y-auto bg-[#0f0f0f]">
-        <div :class="cn('w-full p-8 lg:p-12', !wide && 'max-w-4xl mx-auto')">
+      <main class="flex-1 flex flex-col min-w-0 overflow-y-auto bg-white dark:bg-[#0a0a0f] transition-colors duration-300">
+        <div :class="cn('w-full p-8 lg:p-12', !wide && 'max-w-4xl mr-auto ml-0 border-r border-slate-100 dark:border-none')">
             <slot />
         </div>
       </main>
 
       <!-- Right Sidebar (TOC) -->
-      <aside v-if="!wide && $slots['right-sidebar']" class="w-64 border-l border-[#262626] bg-[#0f0f0f] shrink-0 hidden xl:flex flex-col p-8 sticky top-14 h-full overflow-y-auto max-h-full">
+      <aside v-if="!wide && $slots['right-sidebar']" class="w-64 border-l border-slate-200/40 dark:border-[#262626] bg-slate-50/50 dark:bg-[#0a0a0f] shrink-0 hidden xl:flex flex-col p-8 sticky top-14 h-full overflow-y-auto max-h-full transition-colors duration-300">
         <slot name="right-sidebar" />
       </aside>
     </div>
@@ -306,11 +310,19 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #262626;
+  background: #e5e7eb;
   border-radius: 10px;
 }
 
+.dark ::-webkit-scrollbar-thumb {
+  background: #262626;
+}
+
 ::-webkit-scrollbar-thumb:hover {
+  background: #d1d5db;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
   background: #333333;
 }
 </style>

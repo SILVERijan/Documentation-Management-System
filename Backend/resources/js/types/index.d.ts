@@ -6,6 +6,7 @@ export interface User {
     avatar: string | null;
     role: 'admin' | 'user';
     status: 'active' | 'inactive';
+    theme_preference?: 'light' | 'dark' | 'system';
 }
 
 export type PageProps<

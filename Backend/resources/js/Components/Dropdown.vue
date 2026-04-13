@@ -10,7 +10,7 @@ const props = withDefaults(
     {
         align: 'right',
         width: '48',
-        contentClasses: 'py-1 bg-white dark:bg-gray-700',
+        contentClasses: 'py-1 bg-white dark:bg-[#161616] border border-gray-200 dark:border-[#262626]',
     },
 );
 

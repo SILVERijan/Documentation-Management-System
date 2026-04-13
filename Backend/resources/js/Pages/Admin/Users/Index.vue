@@ -14,7 +14,7 @@ import InputError from '@/Components/InputError.vue'
 
 const props = defineProps<{
   users: Array<any>;
-  applications: Array<{ id: number; name: string; }>;
+  assignableApplications: Array<{ id: number; name: string; }>;
 }>()
 
 const adminMenu = [
@@ -101,7 +101,7 @@ const deleteUser = (user: any) => {
               :href="item.href || '#'"
               :class="cn(
                 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all group',
-                item.active ? 'bg-indigo-500/10 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                item.active ? 'bg-indigo-500/10 text-slate-900 dark:text-white' : 'text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
               )"
             >
               <component :is="item.icon" class="w-4 h-4 shrink-0" />
@@ -116,7 +116,7 @@ const deleteUser = (user: any) => {
       <!-- Header -->
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 class="text-3xl font-bold tracking-tight text-white mb-1">User Management</h1>
+          <h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-1">User Management</h1>
           <p class="text-gray-500 text-sm">Control user access, roles, and assigned application permissions.</p>
         </div>
         <div class="flex items-center gap-2">
@@ -128,10 +128,10 @@ const deleteUser = (user: any) => {
       </div>
 
       <!-- Users Table -->
-      <div class="bg-[#161616] border border-[#262626] rounded-3xl overflow-hidden shadow-2xl">
+      <div class="bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] rounded-3xl overflow-hidden shadow-2xl">
          <div class="overflow-x-auto">
              <table class="w-full text-left text-sm text-gray-400">
-                 <thead class="bg-[#1a1a1a] text-xs uppercase text-gray-500 border-b border-[#262626]">
+                 <thead class="bg-slate-50 dark:bg-[#1a1a1a] text-xs uppercase text-gray-500 border-b border-slate-200 dark:border-[#262626]">
                      <tr>
                          <th class="px-6 py-4 font-bold tracking-wider">Name / Email</th>
                          <th class="px-6 py-4 font-bold tracking-wider">Role</th>
@@ -140,15 +140,15 @@ const deleteUser = (user: any) => {
                          <th class="px-6 py-4 font-bold tracking-wider text-right">Actions</th>
                      </tr>
                  </thead>
-                 <tbody class="divide-y divide-[#262626]">
-                     <tr v-for="user in props.users" :key="user.id" class="hover:bg-[#1f1f1f] transition-colors group">
+                 <tbody class="divide-y divide-slate-200 dark:divide-[#262626]">
+                     <tr v-for="user in props.users" :key="user.id" class="hover:bg-slate-100 dark:hover:bg-[#1f1f1f] transition-colors group">
                          <td class="px-6 py-4">
                              <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex flex-shrink-0 items-center justify-center text-indigo-400 font-bold shadow-inner">
                                     {{ user.name.charAt(0).toUpperCase() }}
                                 </div>
                                 <div class="flex flex-col">
-                                    <span class="text-white font-bold group-hover:text-indigo-300 transition-colors">{{ user.name }}</span>
+                                    <span class="text-slate-900 dark:text-white font-bold group-hover:text-indigo-300 transition-colors">{{ user.name }}</span>
                                     <span class="text-[11px] text-gray-500">{{ user.email }}</span>
                                 </div>
                              </div>
@@ -179,7 +179,7 @@ const deleteUser = (user: any) => {
                                  <span 
                                      v-for="app in user.applications" 
                                      :key="app.id"
-                                     class="px-2 py-0.5 rounded-full bg-[#262626] border border-[#333] text-[10px] font-bold text-gray-300"
+                                     class="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-[#262626] border border-slate-200 dark:border-[#333] text-[10px] font-bold text-slate-700 dark:text-gray-300"
                                   >
                                      {{ app.name }}
                                  </span>
@@ -213,7 +213,7 @@ const deleteUser = (user: any) => {
 
     <!-- User Form Modal -->
     <Modal :show="showModal" @close="showModal = false" maxWidth="md">
-        <div class="p-6 bg-[#161616] border border-[#262626] overflow-hidden">
+        <div class="p-6 bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] overflow-hidden">
             <h2 class="text-xl font-bold text-white mb-6">
                 {{ editingUser ? 'Edit User' : 'Create New User' }}
             </h2>
@@ -221,11 +221,11 @@ const deleteUser = (user: any) => {
             <form @submit.prevent="submitForm" class="space-y-5">
                 <!-- Name -->
                 <div>
-                    <InputLabel for="name" value="Full Name" class="text-gray-300 mb-1" />
+                    <InputLabel for="name" value="Full Name" class="text-slate-700 dark:text-gray-300 mb-1" />
                     <TextInput
                         id="name"
                         type="text"
-                        class="mt-1 block w-full bg-[#1a1a1a] border-[#333] text-white focus:border-indigo-500 focus:ring-indigo-500 placeholder-gray-600"
+                        class="mt-1 block w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#333] text-white focus:border-indigo-500 focus:ring-indigo-500 placeholder-gray-600"
                         v-model="form.name"
                         required
                         placeholder="e.g. Jane Doe"
@@ -235,11 +235,11 @@ const deleteUser = (user: any) => {
 
                 <!-- Email -->
                 <div>
-                    <InputLabel for="email" value="Email Address" class="text-gray-300 mb-1" />
+                    <InputLabel for="email" value="Email Address" class="text-slate-700 dark:text-gray-300 mb-1" />
                     <TextInput
                         id="email"
                         type="email"
-                        class="mt-1 block w-full bg-[#1a1a1a] border-[#333] text-white focus:border-indigo-500 focus:ring-indigo-500 placeholder-gray-600"
+                        class="mt-1 block w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#333] text-white focus:border-indigo-500 focus:ring-indigo-500 placeholder-gray-600"
                         v-model="form.email"
                         required
                         placeholder="e.g. jane@example.com"
@@ -250,11 +250,11 @@ const deleteUser = (user: any) => {
                 <!-- Password -->
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <InputLabel for="password" :value="editingUser ? 'New Password' : 'Password'" class="text-gray-300 mb-1" />
+                        <InputLabel for="password" :value="editingUser ? 'New Password' : 'Password'" class="text-slate-700 dark:text-gray-300 mb-1" />
                         <TextInput
                             id="password"
                             type="password"
-                            class="mt-1 block w-full bg-[#1a1a1a] border-[#333] text-white focus:border-indigo-500 focus:ring-indigo-500 placeholder-gray-600"
+                            class="mt-1 block w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#333] text-white focus:border-indigo-500 focus:ring-indigo-500 placeholder-gray-600"
                             v-model="form.password"
                             :required="!editingUser"
                             placeholder="••••••••"
@@ -263,11 +263,11 @@ const deleteUser = (user: any) => {
                         <p v-if="editingUser" class="text-[10px] text-gray-500 mt-1">Leave blank to keep current password.</p>
                     </div>
                     <div>
-                        <InputLabel for="password_confirmation" value="Confirm Password" class="text-gray-300 mb-1" />
+                        <InputLabel for="password_confirmation" value="Confirm Password" class="text-slate-700 dark:text-gray-300 mb-1" />
                         <TextInput
                             id="password_confirmation"
                             type="password"
-                            class="mt-1 block w-full bg-[#1a1a1a] border-[#333] text-white focus:border-indigo-500 focus:ring-indigo-500 placeholder-gray-600"
+                            class="mt-1 block w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#333] text-white focus:border-indigo-500 focus:ring-indigo-500 placeholder-gray-600"
                             v-model="form.password_confirmation"
                             :required="!editingUser && form.password.length > 0"
                             placeholder="••••••••"
@@ -278,11 +278,11 @@ const deleteUser = (user: any) => {
                 <!-- Role & Status -->
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <InputLabel for="role" value="User Role" class="text-gray-300 mb-1" />
+                        <InputLabel for="role" value="User Role" class="text-slate-700 dark:text-gray-300 mb-1" />
                         <select 
                             id="role" 
                             v-model="form.role" 
-                            class="mt-1 block w-full bg-[#1a1a1a] border-[#333] text-white rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm h-10 px-3"
+                            class="mt-1 block w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#333] text-white rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm h-10 px-3"
                         >
                             <option value="user">Normal User</option>
                             <option value="admin">Administrator</option>
@@ -290,11 +290,11 @@ const deleteUser = (user: any) => {
                         <InputError class="mt-2 text-red-400" :message="form.errors.role" />
                     </div>
                     <div>
-                        <InputLabel for="status" value="Account Status" class="text-gray-300 mb-1" />
+                        <InputLabel for="status" value="Account Status" class="text-slate-700 dark:text-gray-300 mb-1" />
                         <select 
                             id="status" 
                             v-model="form.status" 
-                            class="mt-1 block w-full bg-[#1a1a1a] border-[#333] text-white rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm h-10 px-3"
+                            class="mt-1 block w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#333] text-white rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm h-10 px-3"
                         >
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
@@ -304,13 +304,13 @@ const deleteUser = (user: any) => {
                 </div>
 
                 <!-- Assigned Applications -->
-                <div class="pt-4 border-t border-[#262626]">
-                    <InputLabel value="Assigned Applications" class="text-gray-300 mb-3 font-bold" />
+                <div class="pt-4 border-t border-slate-200 dark:border-[#262626]">
+                    <InputLabel value="Assigned Applications" class="text-slate-700 dark:text-gray-300 mb-3 font-bold" />
                     <div class="grid grid-cols-2 gap-3 max-h-[160px] overflow-y-auto pr-2 custom-scrollbar">
                         <label 
-                            v-for="app in props.applications" 
+                            v-for="app in props.assignableApplications" 
                             :key="app.id"
-                            class="flex items-center gap-3 p-3 rounded-xl border border-[#333] bg-[#1a1a1a] cursor-pointer hover:border-indigo-500/50 hover:bg-[#1f1f1f] transition-all group"
+                            class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 dark:border-[#333] bg-slate-50 dark:bg-[#1a1a1a] cursor-pointer hover:border-indigo-500/50 hover:bg-slate-100 dark:hover:bg-[#1f1f1f] transition-all group"
                         >
                             <input 
                                 type="checkbox" 
@@ -318,14 +318,14 @@ const deleteUser = (user: any) => {
                                 v-model="form.applications"
                                 class="rounded border-gray-600 bg-gray-800 text-indigo-500 focus:ring-indigo-500 focus:ring-offset-[#1a1a1a] w-4 h-4 transition-all"
                             >
-                            <span class="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">{{ app.name }}</span>
+                            <span class="text-sm font-medium text-slate-700 dark:text-gray-300 group-hover:text-slate-900 dark:text-white transition-colors">{{ app.name }}</span>
                         </label>
                     </div>
-                    <p v-if="props.applications.length === 0" class="text-xs text-gray-500 mt-2 p-3 bg-[#1a1a1a] rounded-xl border border-[#333]">No applications exist in the system yet.</p>
+                    <p v-if="props.assignableApplications.length === 0" class="text-xs text-gray-500 mt-2 p-3 bg-slate-50 dark:bg-[#1a1a1a] rounded-xl border border-slate-200 dark:border-[#333]">No applications exist in the system yet.</p>
                 </div>
 
                 <!-- Actions -->
-                <div class="mt-8 flex justify-end gap-3 pt-6 border-t border-[#262626]">
+                <div class="mt-8 flex justify-end gap-3 pt-6 border-t border-slate-200 dark:border-[#262626]">
                     <button 
                         type="button" 
                         @click="showModal = false"

@@ -3,7 +3,7 @@
         <div class="brand-icon overflow-hidden">
             <img src="/images/logo.jpg" alt="SILVER Docs Logo" class="w-full h-full object-cover">
         </div>
-        <span v-if="showName" class="brand-name">SILVER <span class="brand-accent">Docs</span></span>
+        <span v-if="showName" class="brand-name text-slate-900 dark:text-white">SILVER <span class="brand-accent text-indigo-600 dark:text-indigo-400">Docs</span></span>
     </div>
 </template>
 
@@ -70,12 +70,6 @@ withDefaults(defineProps<{
 
 .brand-name {
   font-weight: 900;
-  color: #ffffff; /* Forced white to match welcome page as requested */
   letter-spacing: -0.3px;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.2); /* Added subtle shadow for legibility on light backgrounds if needed */
-}
-
-.brand-accent {
-  color: #818cf8; /* Light Indigo for the "Docs" part to match coloration */
 }
 </style>

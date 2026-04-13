@@ -110,7 +110,7 @@ const statsItems = [
               :href="item.href || '#'"
               :class="cn(
                 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all group',
-                item.active ? 'bg-indigo-500/10 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                item.active ? 'bg-indigo-500/10 text-slate-900 dark:text-white' : 'text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
               )"
             >
               <component :is="item.icon" class="w-4 h-4 shrink-0" />
@@ -125,7 +125,7 @@ const statsItems = [
       <!-- Header -->
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 class="text-3xl font-bold tracking-tight text-white mb-1">Documentation Management</h1>
+          <h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-1">Documentation Management</h1>
           <p class="text-gray-500 text-sm">Manage, audit, and organize all system documentations across applications.</p>
         </div>
         <div class="flex items-center gap-2">
@@ -143,8 +143,8 @@ const statsItems = [
           :key="stat.name"
           @click="status = stat.key"
           :class="cn(
-            'bg-[#161616] border p-5 rounded-2xl transition-all group text-left relative overflow-hidden',
-            status === stat.key ? 'border-white/20' : 'border-[#262626] hover:border-indigo-500/30'
+            'bg-white dark:bg-[#161616] border p-5 rounded-2xl transition-all group text-left relative overflow-hidden',
+            status === stat.key ? 'border-white/20' : 'border-slate-200 dark:border-[#262626] hover:border-indigo-500/30'
           )"
         >
           <div v-if="status === stat.key" class="absolute top-0 right-0 p-1">
@@ -156,7 +156,7 @@ const statsItems = [
             </div>
             <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{{ stat.name }}</span>
           </div>
-          <div class="text-2xl font-extrabold text-white">{{ stat.value }}</div>
+          <div class="text-2xl font-extrabold text-slate-900 dark:text-white">{{ stat.value }}</div>
         </button>
       </div>
 
@@ -168,7 +168,7 @@ const statsItems = [
                 v-model="search"
                 type="text" 
                 placeholder="Search documents by title or slug..." 
-                class="w-full bg-[#161616] border-[#262626] rounded-xl pl-10 pr-4 py-2 text-sm text-white placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500 transition-all"
+                class="w-full bg-white dark:bg-[#161616] border-slate-200 dark:border-[#262626] rounded-xl pl-10 pr-4 py-2 text-sm text-white placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500 transition-all"
             >
           </div>
           
@@ -181,10 +181,10 @@ const statsItems = [
       </div>
 
       <!-- Documents Table -->
-      <div class="bg-[#161616] border border-[#262626] rounded-3xl overflow-hidden shadow-2xl">
+      <div class="bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] rounded-3xl overflow-hidden shadow-2xl">
          <div class="overflow-x-auto">
              <table class="w-full text-left text-sm text-gray-400">
-                 <thead class="bg-[#1a1a1a] text-xs uppercase text-gray-500 border-b border-[#262626]">
+                 <thead class="bg-slate-50 dark:bg-[#1a1a1a] text-xs uppercase text-gray-500 border-b border-slate-200 dark:border-[#262626]">
                      <tr>
                          <th class="px-6 py-4 font-bold tracking-wider">Document Title</th>
                          <th class="px-6 py-4 font-bold tracking-wider">Application</th>
@@ -194,23 +194,23 @@ const statsItems = [
                          <th class="px-6 py-4 font-bold tracking-wider text-right">Actions</th>
                      </tr>
                  </thead>
-                 <tbody class="divide-y divide-[#262626]">
+                 <tbody class="divide-y divide-slate-200 dark:divide-[#262626]">
                      <tr 
                          v-for="doc in props.documents.data" 
                          :key="doc.id" 
-                         class="hover:bg-[#1f1f1f] transition-all group relative border-l-4 border-transparent"
+                         class="hover:bg-slate-100 dark:hover:bg-[#1f1f1f] transition-all group relative border-l-4 border-transparent"
                          :class="doc.application ? `border-l-${doc.application.color || 'indigo'}-500 hover:bg-${doc.application.color || 'indigo'}-500/[0.03]` : ''"
                      >
                          <td class="px-6 py-4">
                              <div class="flex items-center gap-3">
                                 <div 
-                                    class="w-9 h-9 rounded-xl bg-[#1a1a1a] border border-[#262626] flex flex-shrink-0 items-center justify-center transition-all shadow-inner group-hover:scale-110"
+                                    class="w-9 h-9 rounded-xl bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200 dark:border-[#262626] flex flex-shrink-0 items-center justify-center transition-all shadow-inner group-hover:scale-110"
                                     :class="doc.application ? `text-${doc.application.color}-400 group-hover:border-${doc.application.color}-500/50` : 'text-indigo-400 group-hover:border-indigo-500/50'"
                                 >
                                     <FileText class="w-4 h-4" />
                                 </div>
                                 <div class="flex flex-col text-ellipsis overflow-hidden">
-                                    <span class="text-white font-bold group-hover:text-indigo-300 transition-colors">{{ doc.title }}</span>
+                                    <span class="text-slate-900 dark:text-white font-bold group-hover:text-indigo-300 transition-colors">{{ doc.title }}</span>
                                     <span class="text-[10px] text-gray-500 font-mono truncate max-w-[200px]">{{ doc.slug }}</span>
                                 </div>
                              </div>
@@ -232,7 +232,7 @@ const statsItems = [
                                  <span class="text-[11px] font-bold">{{ doc.deleted_at }}</span>
                              </div>
                              <div v-else class="flex flex-col gap-1.5">
-                                 <span class="text-[11px] font-medium text-gray-300 flex items-center gap-1">
+                                 <span class="text-[11px] font-medium text-slate-700 dark:text-gray-300 flex items-center gap-1">
                                      <Users class="w-3 h-3 text-gray-500" />
                                      {{ doc.author }}
                                  </span>
@@ -292,7 +292,7 @@ const statsItems = [
          </div>
 
          <!-- Pagination -->
-         <div v-if="props.documents.last_page > 1" class="px-6 py-4 bg-[#1a1a1a] border-t border-[#262626] flex items-center justify-between">
+         <div v-if="props.documents.last_page > 1" class="px-6 py-4 bg-slate-50 dark:bg-[#1a1a1a] border-t border-slate-200 dark:border-[#262626] flex items-center justify-between">
              <span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">
                  Showing {{ props.documents.data.length }} items
              </span>

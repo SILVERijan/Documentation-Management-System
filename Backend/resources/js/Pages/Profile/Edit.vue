@@ -66,13 +66,13 @@ const adminMenu = [
         <div class="max-w-4xl mx-auto space-y-8">
           <!-- Header -->
           <div class="flex flex-col gap-1">
-            <h1 class="text-3xl font-bold tracking-tight text-white">Profile Settings</h1>
-            <p class="text-gray-500 text-sm">Update your account information, password, and security settings.</p>
+            <h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Profile Settings</h1>
+            <p class="text-slate-500 dark:text-gray-500 text-sm">Update your account information, password, and security settings.</p>
           </div>
 
           <div class="space-y-6">
             <div
-                class="bg-[#161616] border border-[#262626] p-6 shadow-2xl rounded-3xl sm:p-8"
+                class="bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] p-6 shadow-2xl rounded-3xl sm:p-8"
             >
                 <UpdateProfileInformationForm
                     :must-verify-email="mustVerifyEmail"
@@ -82,13 +82,13 @@ const adminMenu = [
             </div>
 
             <div
-                class="bg-[#161616] border border-[#262626] p-6 shadow-2xl rounded-3xl sm:p-8"
+                class="bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] p-6 shadow-2xl rounded-3xl sm:p-8"
             >
                 <UpdatePasswordForm class="max-w-2xl" />
             </div>
 
             <div
-                class="bg-[#161616] border border-[#262626] p-6 shadow-2xl rounded-3xl sm:p-8"
+                class="bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] p-6 shadow-2xl rounded-3xl sm:p-8"
             >
                 <DeleteUserForm class="max-w-2xl" />
             </div>

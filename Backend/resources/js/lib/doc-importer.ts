@@ -3,6 +3,7 @@ import { marked } from 'marked';
 
 interface ImportedDoc {
     title: string;
+    sub_title?: string;
     intro: string;
     sections: { sub_title: string; content: string; level: number }[];
 }
@@ -24,6 +25,7 @@ export const importDocument = async (file: File): Promise<ImportedDoc> => {
 const parseMarkdown = async (text: string, filename: string): Promise<ImportedDoc> => {
     const lines = text.split('\n');
     let title = '';
+    let sub_title = '';
     let introMarkdown = '';
     const sections: { sub_title: string; content: string; level: number }[] = [];
 
@@ -31,11 +33,18 @@ const parseMarkdown = async (text: string, filename: string): Promise<ImportedDo
     let currentSectionContent = '';
     let currentSectionLevel = 2;
     let foundTitle = false;
+    let foundSubTitle = false;
 
     for (const line of lines) {
         if (!foundTitle && line.startsWith('# ')) {
             title = line.replace('# ', '').trim();
             foundTitle = true;
+            continue;
+        }
+
+        if (!foundSubTitle && line.startsWith('## ')) {
+            sub_title = line.replace('## ', '').trim();
+            foundSubTitle = true;
             continue;
         }
 
@@ -76,6 +85,7 @@ const parseMarkdown = async (text: string, filename: string): Promise<ImportedDo
 
     return {
         title: title || filename.replace(/\.[^/.]+$/, "").replace(/[-_]/g, ' '),
+        sub_title: sub_title,
         intro: (await marked.parse(introMarkdown.trim())) as string,
         sections
     };
@@ -89,6 +99,12 @@ const parseHtml = (html: string): ImportedDoc => {
     
     // Remove the h1 from the doc so it's not in the intro
     doc.querySelector('h1')?.remove();
+
+    let sub_title = doc.querySelector('h2')?.textContent || '';
+    // Remove the first h2 from the doc so it's not in the intro or sections
+    if (sub_title) {
+        doc.querySelector('h2')?.remove();
+    }
 
     const sections: { sub_title: string; content: string; level: number }[] = [];
     const headings = Array.from(doc.querySelectorAll('h2, h3'));
@@ -134,6 +150,7 @@ const parseHtml = (html: string): ImportedDoc => {
 
     return {
         title: title.trim(),
+        sub_title: sub_title.trim(),
         intro: introHtml.trim(),
         sections
     };

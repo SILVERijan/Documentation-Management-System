@@ -115,14 +115,14 @@ const userMenu = computed(() => {
               :href="item.href || '#'"
               :class="cn(
                 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all group',
-                item.active ? 'bg-indigo-500/10 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                item.active ? 'bg-indigo-500/10 text-slate-900 dark:text-white' : 'text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
               )"
             >
               <component :is="item.icon" class="w-4 h-4 shrink-0" />
               {{ item.name }}
             </Link>
             
-            <div class="pt-4 mt-4 border-t border-[#262626]">
+            <div class="pt-4 mt-4 border-t border-slate-200 dark:border-[#262626]">
                 <Link 
                   :href="route('user.documents.index')"
                   class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all group"
@@ -139,30 +139,30 @@ const userMenu = computed(() => {
     <div class="space-y-8 max-w-4xl mx-auto">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 class="text-3xl font-bold tracking-tight text-white mb-1">Edit Document</h1>
+          <h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-1">Edit Document</h1>
           <p class="text-gray-500 text-sm">Update your documentation details and content.</p>
         </div>
       </div>
 
-      <form @submit.prevent="submit" class="bg-[#161616] border border-[#262626] rounded-3xl overflow-hidden shadow-2xl p-8 space-y-6">
+      <form @submit.prevent="submit" class="bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] rounded-3xl overflow-hidden shadow-2xl p-8 space-y-6">
           <div class="space-y-2">
-              <label class="text-sm font-bold text-gray-300">Title</label>
+              <label class="text-sm font-bold text-slate-700 dark:text-gray-300">Title</label>
               <input 
                   v-model="form.title" 
                   type="text" 
                   required
-                  class="w-full bg-[#1a1a1a] border-[#262626] rounded-xl px-4 py-2.5 text-white placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
+                  class="w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#262626] rounded-xl px-4 py-2.5 text-white placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
               >
               <div v-if="form.errors.title" class="text-red-400 text-xs mt-1">{{ form.errors.title }}</div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div class="space-y-2">
-                  <label class="text-sm font-bold text-gray-300">Application</label>
+                  <label class="text-sm font-bold text-slate-700 dark:text-gray-300">Application</label>
                   <select 
                       v-model="form.application_id" 
                       required
-                      class="w-full bg-[#1a1a1a] border-[#262626] rounded-xl px-4 py-2.5 text-white focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
+                      class="w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#262626] rounded-xl px-4 py-2.5 text-white focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
                   >
                       <option value="" disabled>Select an Application...</option>
                       <option v-for="app in assignableApplications" :key="app.id" :value="app.id">{{ app.name }}</option>
@@ -170,11 +170,11 @@ const userMenu = computed(() => {
                   <div v-if="form.errors.application_id" class="text-red-400 text-xs mt-1">{{ form.errors.application_id }}</div>
               </div>
               <div class="space-y-2">
-                  <label class="text-sm font-bold text-gray-300">Status</label>
+                  <label class="text-sm font-bold text-slate-700 dark:text-gray-300">Status</label>
                   <select 
                       v-model="form.status" 
                       required
-                      class="w-full bg-[#1a1a1a] border-[#262626] rounded-xl px-4 py-2.5 text-white focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
+                      class="w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#262626] rounded-xl px-4 py-2.5 text-white focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
                   >
                       <option value="draft">Draft</option>
                       <option value="published">Published</option>
@@ -184,7 +184,7 @@ const userMenu = computed(() => {
           </div>
 
           <div class="space-y-2">
-              <label class="text-sm font-bold text-gray-300">
+              <label class="text-sm font-bold text-slate-700 dark:text-gray-300">
                   Content
               </label>
               <RichEditor 
@@ -193,7 +193,7 @@ const userMenu = computed(() => {
               <div v-if="form.errors.content" class="text-red-400 text-xs mt-1">{{ form.errors.content }}</div>
           </div>
 
-          <div class="pt-4 border-t border-[#262626] flex items-center justify-end gap-3">
+          <div class="pt-4 border-t border-slate-200 dark:border-[#262626] flex items-center justify-end gap-3">
               <Link :href="route('user.documents.index')" class="px-4 py-2 text-sm font-bold text-gray-400 hover:text-white transition-colors">
                   Cancel
               </Link>
@@ -210,8 +210,8 @@ const userMenu = computed(() => {
       </form>
 
       <!-- Attachments Section -->
-      <div class="bg-[#161616] border border-[#262626] rounded-3xl overflow-hidden shadow-2xl">
-          <div class="p-8 border-b border-[#262626] flex items-center justify-between bg-[#1a1a1a]/50">
+      <div class="bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] rounded-3xl overflow-hidden shadow-2xl">
+          <div class="p-8 border-b border-slate-200 dark:border-[#262626] flex items-center justify-between bg-slate-50 dark:bg-[#1a1a1a]/50">
               <div>
                   <h2 class="text-xl font-bold text-white mb-1">Attachments</h2>
                   <p class="text-gray-500 text-sm">Add supporting files, PDFs, or images to this document.</p>
@@ -226,7 +226,7 @@ const userMenu = computed(() => {
                   <button 
                       @click="fileInput?.click()"
                       :disabled="uploadForm.processing"
-                      class="flex items-center gap-2 px-4 py-2 bg-white/5 border border-[#262626] text-white rounded-xl text-xs font-bold hover:bg-white/10 transition-all disabled:opacity-50"
+                      class="flex items-center gap-2 px-4 py-2 bg-white/5 border border-slate-200 dark:border-[#262626] text-white rounded-xl text-xs font-bold hover:bg-white/10 transition-all disabled:opacity-50"
                   >
                       <div v-if="uploadForm.processing" class="flex items-center gap-2">
                           <Loader2 class="w-3 h-3 animate-spin" />
@@ -240,12 +240,12 @@ const userMenu = computed(() => {
               </div>
           </div>
 
-          <div v-if="uploadForm.progress" class="px-8 py-4 bg-indigo-500/5 border-b border-[#262626]">
+          <div v-if="uploadForm.progress" class="px-8 py-4 bg-indigo-500/5 border-b border-slate-200 dark:border-[#262626]">
                <div class="flex items-center justify-between mb-2">
                   <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Uploading File...</span>
                   <span class="text-[10px] font-bold text-indigo-400">{{ uploadForm.progress.percentage }}%</span>
                </div>
-               <div class="w-full h-1 bg-[#262626] rounded-full overflow-hidden">
+               <div class="w-full h-1 bg-slate-200 dark:bg-[#262626] rounded-full overflow-hidden">
                   <div 
                       class="h-full bg-indigo-500 transition-all duration-300"
                       :style="`width: ${uploadForm.progress.percentage}%`"
@@ -258,10 +258,10 @@ const userMenu = computed(() => {
                   <div 
                       v-for="file in props.document.attachments" 
                       :key="file.id"
-                      class="group bg-[#1a1a1a] border border-[#262626] p-4 rounded-2xl flex items-center justify-between hover:border-indigo-500/30 transition-all"
+                      class="group bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200 dark:border-[#262626] p-4 rounded-2xl flex items-center justify-between hover:border-indigo-500/30 transition-all"
                   >
                       <div class="flex items-center gap-4 min-w-0">
-                          <div class="w-10 h-10 rounded-xl bg-[#16161a] border border-[#262626] flex items-center justify-center text-gray-500 group-hover:text-indigo-400 transition-colors overflow-hidden">
+                          <div class="w-10 h-10 rounded-xl bg-[#16161a] border border-slate-200 dark:border-[#262626] flex items-center justify-center text-gray-500 group-hover:text-indigo-400 transition-colors overflow-hidden">
                               <img 
                                   v-if="['jpg', 'jpeg', 'png', 'webp', 'gif'].includes(file.file_type.toLowerCase())" 
                                   :src="route('user.attachments.download', file.id)" 
@@ -271,7 +271,7 @@ const userMenu = computed(() => {
                               <File v-else class="w-5 h-5" />
                           </div>
                           <div class="flex flex-col min-w-0">
-                              <span class="text-sm font-bold text-white truncate pr-4">{{ file.original_name }}</span>
+                              <span class="text-sm font-bold text-slate-900 dark:text-white truncate pr-4">{{ file.original_name }}</span>
                               <div class="flex items-center gap-2 text-[10px] font-medium text-gray-500 uppercase tracking-wider">
                                   <span>{{ formatSize(file.file_size) }}</span>
                                   <span>•</span>
@@ -300,7 +300,7 @@ const userMenu = computed(() => {
                       </div>
                   </div>
               </div>
-              <div v-else class="flex flex-col items-center justify-center py-12 text-gray-600 border-2 border-dashed border-[#262626] rounded-2xl">
+              <div v-else class="flex flex-col items-center justify-center py-12 text-gray-600 border-2 border-dashed border-slate-200 dark:border-[#262626] rounded-2xl">
                   <Paperclip class="w-10 h-10 mb-3 opacity-20" />
                   <p class="text-sm font-medium">No attachments yet.</p>
                   <p class="text-xs">Upload supplementary files for this documentation.</p>

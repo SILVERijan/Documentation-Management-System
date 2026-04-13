@@ -87,14 +87,14 @@ const deleteSection = (sectionId: number) => {
               :href="item.href || '#'"
               :class="cn(
                 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all group',
-                item.active ? 'bg-indigo-500/10 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                item.active ? 'bg-indigo-500/10 text-slate-900 dark:text-white' : 'text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
               )"
             >
               <component :is="item.icon" class="w-4 h-4 shrink-0" />
               {{ item.name }}
             </Link>
             
-            <div class="pt-4 mt-4 border-t border-[#262626]">
+            <div class="pt-4 mt-4 border-t border-slate-200 dark:border-[#262626]">
                 <Link 
                   :href="route('user.documents.index')"
                   class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all group"
@@ -122,21 +122,21 @@ const deleteSection = (sectionId: number) => {
     <div class="space-y-8 max-w-4xl mx-auto">
       <!-- Header -->
       <div>
-        <h1 class="text-3xl font-bold tracking-tight text-white mb-1">Manage Sections</h1>
+        <h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-1">Manage Sections</h1>
         <p class="text-gray-500 text-sm">Document: <span class="text-indigo-400 font-medium">{{ document.title }}</span></p>
       </div>
 
       <!-- Existing sections -->
       <div class="space-y-4">
-        <div v-if="sections.length === 0" class="bg-[#161616] border border-dashed border-[#262626] rounded-2xl p-10 text-center text-gray-500">
+        <div v-if="sections.length === 0" class="bg-white dark:bg-[#161616] border border-dashed border-slate-200 dark:border-[#262626] rounded-2xl p-10 text-center text-gray-500">
           <p class="text-sm">No sections yet. Add your first section below.</p>
         </div>
 
-        <div v-for="(s, idx) in sections" :key="s.id" class="bg-[#161616] border border-[#262626] rounded-2xl overflow-hidden">
+        <div v-for="(s, idx) in sections" :key="s.id" class="bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] rounded-2xl overflow-hidden">
           <!-- Section header -->
-          <div class="flex items-center justify-between px-6 py-4 border-b border-[#262626]">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-[#262626]">
             <div class="flex items-center gap-3">
-              <span class="text-[10px] font-black text-gray-600 uppercase tracking-widest bg-[#1a1a1a] border border-[#262626] rounded px-2 py-0.5">#{{ idx + 1 }}</span>
+              <span class="text-[10px] font-black text-gray-600 uppercase tracking-widest bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200 dark:border-[#262626] rounded px-2 py-0.5">#{{ idx + 1 }}</span>
               <h3 class="text-white font-bold">{{ s.sub_title }}</h3>
             </div>
             <div class="flex items-center gap-1">
@@ -150,10 +150,10 @@ const deleteSection = (sectionId: number) => {
           </div>
 
           <!-- Edit form -->
-          <div v-if="editingId === s.id" class="p-6 space-y-4 bg-[#1a1a1a]">
+          <div v-if="editingId === s.id" class="p-6 space-y-4 bg-slate-50 dark:bg-[#1a1a1a]">
             <div class="space-y-2">
               <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Sub Title</label>
-              <input v-model="editForm.sub_title" type="text" required class="w-full bg-[#161616] border-[#262626] rounded-xl px-4 py-2.5 text-white focus:border-indigo-500 focus:ring-indigo-500 transition-all" />
+              <input v-model="editForm.sub_title" type="text" required class="w-full bg-white dark:bg-[#161616] border-slate-200 dark:border-[#262626] rounded-xl px-4 py-2.5 text-white focus:border-indigo-500 focus:ring-indigo-500 transition-all" />
               <div v-if="editForm.errors.sub_title" class="text-red-400 text-xs">{{ editForm.errors.sub_title }}</div>
             </div>
             <div class="space-y-2">
@@ -179,7 +179,7 @@ const deleteSection = (sectionId: number) => {
       </div>
 
       <!-- Add new section form -->
-      <div class="bg-[#161616] border border-indigo-500/20 rounded-2xl p-6 space-y-5">
+      <div class="bg-white dark:bg-[#161616] border border-indigo-500/20 rounded-2xl p-6 space-y-5">
         <div class="flex items-center gap-2 mb-2">
           <Plus class="w-4 h-4 text-indigo-400" />
           <h2 class="text-base font-bold text-white">Add New Section</h2>
@@ -187,19 +187,19 @@ const deleteSection = (sectionId: number) => {
 
         <form @submit.prevent="submitAdd" class="space-y-4">
           <div class="space-y-2">
-            <label class="text-sm font-bold text-gray-300">Sub Title</label>
+            <label class="text-sm font-bold text-slate-700 dark:text-gray-300">Sub Title</label>
             <input 
               v-model="addForm.sub_title" 
               type="text" 
               required 
               placeholder="e.g. Getting Started"
-              class="w-full bg-[#1a1a1a] border-[#262626] rounded-xl px-4 py-2.5 text-white placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
+              class="w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#262626] rounded-xl px-4 py-2.5 text-white placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
             >
             <div v-if="addForm.errors.sub_title" class="text-red-400 text-xs">{{ addForm.errors.sub_title }}</div>
           </div>
 
           <div class="space-y-2">
-            <label class="text-sm font-bold text-gray-300">
+            <label class="text-sm font-bold text-slate-700 dark:text-gray-300">
               Content
             </label>
             <RichEditor 

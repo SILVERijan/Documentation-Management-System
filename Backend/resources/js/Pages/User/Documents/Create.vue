@@ -113,13 +113,13 @@ const submit = () => {
               :href="item.href || '#'"
               :class="cn(
                 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all group',
-                item.active ? 'bg-indigo-500/10 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                item.active ? 'bg-indigo-500/10 text-slate-900 dark:text-white' : 'text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
               )"
             >
               <component :is="item.icon" class="w-4 h-4 shrink-0" />
               {{ item.name }}
             </Link>
-            <div class="pt-4 mt-4 border-t border-[#262626]">
+            <div class="pt-4 mt-4 border-t border-slate-200 dark:border-[#262626]">
               <Link
                 :href="route('user.documents.index')"
                 class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all group"
@@ -136,7 +136,7 @@ const submit = () => {
     <div class="space-y-8 max-w-4xl mx-auto">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 class="text-3xl font-bold tracking-tight text-white mb-1">Create Document</h1>
+          <h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-1">Create Document</h1>
           <p class="text-gray-500 text-sm">Create a new documentation article or import a document file (.md, .docx).</p>
         </div>
       </div>
@@ -198,16 +198,16 @@ const submit = () => {
       </div>
 
       <!-- Main Form -->
-      <form @submit.prevent="submit" class="bg-[#161616] border border-[#262626] rounded-3xl overflow-hidden shadow-2xl p-8 space-y-6">
+      <form @submit.prevent="submit" class="bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] rounded-3xl overflow-hidden shadow-2xl p-8 space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Title -->
             <div class="space-y-2">
-                <label class="text-sm font-bold text-gray-300">Title (H1)</label>
+                <label class="text-sm font-bold text-slate-700 dark:text-gray-300">Title (H1)</label>
                 <input
                     v-model="form.title"
                     type="text"
                     required
-                    class="w-full bg-[#1a1a1a] border-[#262626] rounded-xl px-4 py-2.5 text-white placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
+                    class="w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#262626] rounded-xl px-4 py-2.5 text-white placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
                     placeholder="e.g. Onboarding Guide"
                 />
                 <div v-if="form.errors.title" class="text-red-400 text-xs mt-1">{{ form.errors.title }}</div>
@@ -215,11 +215,11 @@ const submit = () => {
 
             <!-- Subtitle -->
             <div class="space-y-2">
-                <label class="text-sm font-bold text-gray-300">Subtitle (H2)</label>
+                <label class="text-sm font-bold text-slate-700 dark:text-gray-300">Subtitle (H2)</label>
                 <input
                     v-model="form.sub_title"
                     type="text"
-                    class="w-full bg-[#1a1a1a] border-[#262626] rounded-xl px-4 py-2.5 text-white placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
+                    class="w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#262626] rounded-xl px-4 py-2.5 text-white placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
                     placeholder="e.g. Getting started with our platform"
                 />
                 <div v-if="form.errors.sub_title" class="text-red-400 text-xs mt-1">{{ form.errors.sub_title }}</div>
@@ -229,11 +229,11 @@ const submit = () => {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Application -->
           <div class="space-y-2">
-            <label class="text-sm font-bold text-gray-300">Application</label>
+            <label class="text-sm font-bold text-slate-700 dark:text-gray-300">Application</label>
             <select
               v-model="form.application_id"
               required
-              class="w-full bg-[#1a1a1a] border-[#262626] rounded-xl px-4 py-2.5 text-white focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
+              class="w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#262626] rounded-xl px-4 py-2.5 text-white focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
             >
               <option value="" disabled>Select an Application...</option>
               <option v-for="app in assignableApplications" :key="app.id" :value="app.id">{{ app.name }}</option>
@@ -243,11 +243,11 @@ const submit = () => {
 
           <!-- Status -->
           <div class="space-y-2">
-            <label class="text-sm font-bold text-gray-300">Status</label>
+            <label class="text-sm font-bold text-slate-700 dark:text-gray-300">Status</label>
             <select
               v-model="form.status"
               required
-              class="w-full bg-[#1a1a1a] border-[#262626] rounded-xl px-4 py-2.5 text-white focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
+              class="w-full bg-slate-50 dark:bg-[#1a1a1a] border-slate-200 dark:border-[#262626] rounded-xl px-4 py-2.5 text-white focus:border-indigo-500 focus:ring-indigo-500 transition-all font-medium"
             >
               <option value="draft">Draft</option>
               <option value="published">Published</option>
@@ -258,16 +258,16 @@ const submit = () => {
 
         <!-- Content / Intro -->
         <div class="space-y-2">
-          <label class="text-sm font-bold text-gray-300">Introduction / Overview</label>
+          <label class="text-sm font-bold text-slate-700 dark:text-gray-300">Introduction / Overview</label>
           <RichEditor v-model="form.content" placeholder="Write a brief introduction for this document…" />
           <div v-if="form.errors.content" class="text-red-400 text-xs mt-1">{{ form.errors.content }}</div>
         </div>
 
         <!-- Imported Sections Preview -->
-        <div v-if="importedSections.length > 0" class="space-y-4 pt-2 border-t border-[#262626]">
+        <div v-if="importedSections.length > 0" class="space-y-4 pt-2 border-t border-slate-200 dark:border-[#262626]">
           <div class="flex items-center gap-2">
             <FileCode class="w-4 h-4 text-indigo-400" />
-            <p class="text-sm font-bold text-gray-300">Sections from Markdown</p>
+            <p class="text-sm font-bold text-slate-700 dark:text-gray-300">Sections from Markdown</p>
             <span class="ml-auto text-[10px] text-gray-500 font-medium uppercase tracking-widest">{{ importedSections.length }} section{{ importedSections.length !== 1 ? 's' : '' }}</span>
           </div>
 
@@ -289,7 +289,7 @@ const submit = () => {
         </div>
 
         <!-- Footer -->
-        <div class="pt-4 border-t border-[#262626] flex items-center justify-between gap-3">
+        <div class="pt-4 border-t border-slate-200 dark:border-[#262626] flex items-center justify-between gap-3">
           <p class="text-xs text-gray-500">
             {{ importedSections.length > 0
               ? `${importedSections.length} section${importedSections.length !== 1 ? 's' : ''} will be created automatically.`

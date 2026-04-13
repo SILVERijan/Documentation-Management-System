@@ -138,7 +138,7 @@ const doughnutChartOptions = {
               v-for="app in sharedApplications" 
               :key="app.name"
               :href="app.slug ? route('app.show.doc', { appSlug: app.slug }) : '#'"
-              class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all group"
+              class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-slate-900 dark:text-white hover:bg-white/5 transition-all group"
             >
               <div :class="cn('w-2 h-2 rounded-full transition-all group-hover:scale-125', `bg-${app.color || 'indigo'}-500`)" />
               {{ app.name }}
@@ -159,7 +159,7 @@ const doughnutChartOptions = {
               :href="item.href || '#'"
               :class="cn(
                 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all group',
-                item.active ? 'bg-indigo-500/10 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                item.active ? 'bg-indigo-500/10 text-white' : 'text-gray-400 hover:text-slate-900 dark:text-white hover:bg-white/5'
               )"
             >
               <component :is="item.icon" class="w-4 h-4 shrink-0" />
@@ -173,7 +173,7 @@ const doughnutChartOptions = {
                 <div class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center mb-3">
                     <ShieldCheck class="w-4 h-4 text-indigo-400" />
                 </div>
-                <h4 class="text-xs font-bold text-white mb-1">System Health</h4>
+                <h4 class="text-xs font-bold text-slate-900 dark:text-white mb-1">System Health</h4>
                 <p class="text-[10px] text-gray-500 leading-relaxed">All documentation services are operating at optimal performance levels.</p>
             </div>
         </section>
@@ -185,7 +185,7 @@ const doughnutChartOptions = {
       <!-- Dashboard Header -->
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 class="text-3xl font-bold tracking-tight text-white mb-1">Admin Dashboard</h1>
+          <h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-1">Admin Dashboard</h1>
           <p class="text-gray-500 text-sm">Comprehensive overview of system users and documentations.</p>
         </div>
         
@@ -196,7 +196,7 @@ const doughnutChartOptions = {
         <div 
           v-for="stat in stats" 
           :key="stat.name"
-          class="bg-[#161616] border border-[#262626] p-6 rounded-2xl hover:border-indigo-500/30 transition-all group relative overflow-hidden"
+          class="bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] p-6 rounded-2xl hover:border-indigo-500/30 transition-all group relative overflow-hidden"
         >
           <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-full -mr-8 -mt-8 group-hover:bg-indigo-500/10 transition-colors" />
           <div class="flex items-center justify-between mb-4">
@@ -204,7 +204,7 @@ const doughnutChartOptions = {
             <component :is="stat.icon" class="w-4 h-4 text-gray-600 group-hover:text-indigo-400 transition-colors" />
           </div>
           <div class="space-y-1">
-            <h3 class="text-2xl font-extrabold text-white">{{ stat.value }}</h3>
+            <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white">{{ stat.value }}</h3>
             <p class="text-[10px] font-medium text-emerald-400 flex items-center gap-1">
                 {{ stat.change }}
                 <ArrowUpRight v-if="stat.change.includes('+')" class="w-2.5 h-2.5" />
@@ -216,10 +216,10 @@ const doughnutChartOptions = {
       <!-- Main Visual Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-7 gap-6">
         <!-- Documents Per Application Chart -->
-        <div class="lg:col-span-4 bg-[#161616] border border-[#262626] rounded-3xl p-6 flex flex-col">
+        <div class="lg:col-span-4 bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] rounded-3xl p-6 flex flex-col">
           <div class="flex items-center justify-between mb-8">
             <div>
-                <h3 class="text-sm font-bold text-white mb-1">Documents per Application</h3>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Documents per Application</h3>
                 <p class="text-[10px] text-gray-500">Distribution across major system modules</p>
             </div>
             <div class="flex items-center gap-2">
@@ -240,15 +240,15 @@ const doughnutChartOptions = {
         </div>
 
         <!-- Document Status Distribution -->
-        <div class="lg:col-span-3 bg-[#161616] border border-[#262626] rounded-3xl p-6 flex flex-col">
+        <div class="lg:col-span-3 bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] rounded-3xl p-6 flex flex-col">
           <div class="mb-8">
-            <h3 class="text-sm font-bold text-white mb-1">Document Status</h3>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Document Status</h3>
             <p class="text-[10px] text-gray-500">Current lifecycle distribution</p>
           </div>
 
           <div class="flex-1 flex flex-col items-center justify-center relative min-h-[220px]">
              <div class="absolute inset-0 flex items-center justify-center flex-col pointer-events-none">
-                <span class="text-2xl font-black text-white line-height-none">{{ props.stats.totalDocuments }}</span>
+                <span class="text-2xl font-black text-slate-900 dark:text-white line-height-none">{{ props.stats.totalDocuments }}</span>
                 <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Total</span>
              </div>
              <AdminChart 
@@ -259,22 +259,22 @@ const doughnutChartOptions = {
           </div>
 
           <div class="mt-6 grid grid-cols-3 gap-2">
-              <div v-for="(count, label) in props.docStatusDistribution" :key="label" class="bg-[#1a1a1a] border border-[#262626] p-2 rounded-xl flex flex-col items-center">
+              <div v-for="(count, label) in props.docStatusDistribution" :key="label" class="bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200 dark:border-[#262626] p-2 rounded-xl flex flex-col items-center">
                   <span class="text-[9px] font-bold text-gray-500 uppercase mb-1">{{ label }}</span>
-                  <span class="text-xs font-black text-white">{{ count }}</span>
+                  <span class="text-xs font-black text-slate-900 dark:text-white">{{ count }}</span>
               </div>
           </div>
         </div>
       </div>
 
       <!-- Recent Documents Section -->
-      <div class="bg-[#161616] border border-[#262626] rounded-3xl p-8">
+      <div class="bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] rounded-3xl p-8">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
           <div>
-            <h3 class="text-lg font-bold text-white mb-1">Recent Document Activity</h3>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">Recent Document Activity</h3>
             <p class="text-sm text-gray-500">The latest documentation updates from your team.</p>
           </div>
-          <Link :href="route('admin.activity')" class="px-4 py-2 rounded-xl bg-white/5 border border-[#262626] text-xs font-bold text-gray-300 hover:text-white hover:bg-white/10 transition-all">
+          <Link :href="route('admin.activity')" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-[#262626] text-xs font-bold text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-all">
             View All Activity
           </Link>
         </div>
@@ -283,11 +283,11 @@ const doughnutChartOptions = {
           <div 
             v-for="doc in props.recentDocuments" 
             :key="doc.id"
-            class="bg-[#1a1a1a] border border-[#262626] p-5 rounded-2xl group hover:border-indigo-500/30 transition-all cursor-pointer relative overflow-hidden"
+            class="bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200 dark:border-[#262626] p-5 rounded-2xl group hover:border-indigo-500/30 transition-all cursor-pointer relative overflow-hidden"
           >
             <div class="flex items-start justify-between mb-4">
               <div 
-                  class="w-10 h-10 rounded-xl bg-[#161616] border border-[#262626] flex items-center justify-center transition-all group-hover:scale-110 shadow-lg"
+                  class="w-10 h-10 rounded-xl bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] flex items-center justify-center transition-all group-hover:scale-110 shadow-lg"
                   :class="`text-${doc.appColor}-400 group-hover:border-${doc.appColor}-500/50`"
               >
                 <FileText class="w-5 h-5" />
@@ -302,7 +302,7 @@ const doughnutChartOptions = {
             
             <div class="space-y-4">
               <div>
-                <h4 class="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors line-clamp-1 mb-1">{{ doc.title }}</h4>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white group-hover:text-indigo-300 transition-colors line-clamp-1 mb-1">{{ doc.title }}</h4>
                 <div class="flex items-center gap-2 text-[10px] font-medium text-gray-500 uppercase tracking-wider">
                     <span :class="cn(`text-${doc.appColor}-500`, 'font-bold text-[10px]')">{{ doc.app }}</span>
                     <span>•</span>
@@ -310,7 +310,7 @@ const doughnutChartOptions = {
                 </div>
               </div>
               
-              <div class="pt-4 border-t border-[#262626] flex items-center justify-between">
+              <div class="pt-4 border-t border-slate-200 dark:border-[#262626] flex items-center justify-between">
                   <span class="text-[10px] font-bold text-gray-600 flex items-center gap-1.5 uppercase tracking-widest">
                       <Clock class="w-3 h-3" />
                       {{ doc.time }}
