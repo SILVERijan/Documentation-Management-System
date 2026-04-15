@@ -10,9 +10,16 @@ Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('dashboard');
     }
+
+    $applications = \App\Models\Application::where('status', 'active')
+        ->select(['id', 'name', 'slug', 'description', 'color'])
+        ->orderBy('sort_order', 'asc')
+        ->get();
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
+        'applications' => $applications,
     ]);
 })->name('welcome');
 

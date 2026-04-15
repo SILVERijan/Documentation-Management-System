@@ -12,7 +12,11 @@ class DocumentationController extends Controller
 {
     public function show($appSlug, $docSlug = null)
     {
-        $application = Application::where('slug', $appSlug)->firstOrFail();
+        $application = Application::where('slug', $appSlug)
+            ->when(!Auth::user()?->isAdmin(), function ($query) {
+                return $query->where('status', 'active');
+            })
+            ->firstOrFail();
 
         // Get all published documents for the left nav bar (Select only necessary columns)
         $documents = Document::where('application_id', $application->id)
@@ -100,6 +104,11 @@ class DocumentationController extends Controller
         }
 
         $results = Document::where('status', 'published')
+            ->whereHas('application', function($q) {
+                $q->when(!Auth::user()?->isAdmin(), function($q) {
+                    $q->where('status', 'active');
+                });
+            })
             ->where(function($q) use ($query) {
                 $q->where('title', 'like', "%{$query}%")
                   ->orWhere('content', 'like', "%{$query}%");

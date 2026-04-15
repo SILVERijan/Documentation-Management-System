@@ -6,7 +6,14 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 defineProps<{
   canLogin?: boolean;
   canRegister?: boolean;
+  applications: Array<{ id: number; name: string; slug: string; description?: string; color?: string }>;
 }>();
+
+const scrollToApps = () => {
+    const el = document.getElementById('explore-apps')
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
 </script>
 
 <template>
@@ -28,12 +35,20 @@ defineProps<{
           <ApplicationLogo size="sm" show-name />
         </div>
 
-        <nav class="navbar-actions flex items-center gap-4" v-if="canLogin">
+        <div class="navbar-actions flex items-center gap-3">
+          <!-- Theme Switcher always available -->
           <ThemeSwitcher />
-          <Link :href="route('login')" class="btn-login" id="nav-login-btn">
-            Log In
-          </Link>
-        </nav>
+          
+          <!-- Optional Divider -->
+          <div v-if="canLogin" class="w-px h-4 bg-slate-200 dark:bg-slate-800 mx-1"></div>
+
+          <nav v-if="canLogin">
+            <Link :href="route('login')" class="nav-btn-login" id="nav-login-btn">
+              Sign In
+            </Link>
+          </nav>
+        </div>
+
       </header>
 
       <!-- ── Hero ── -->
@@ -98,13 +113,50 @@ defineProps<{
 
         <!-- CTA -->
         <div class="cta-group">
-          <Link :href="route('login')" class="btn-primary" id="hero-login-btn">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="btn-icon">
-              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+          <button v-if="applications.length > 0" @click="scrollToApps" class="btn-primary" id="hero-browse-btn">
+            Browse Documentation
+          </button>
+          <Link :href="route('login')" class="btn-secondary-custom" id="hero-login-btn">
             Login to Portal
           </Link>
         </div>
+
+        <!-- ── Explore Applications Section ── -->
+        <section v-if="applications.length > 0" id="explore-apps" class="explore-section">
+          <div class="section-header">
+            <h2 class="section-title text-slate-900 dark:text-white">Available <span class="hero-gradient">Documentations</span></h2>
+            <p class="section-desc text-slate-500 dark:text-slate-400">Select an application below to view its technical guides and resources.</p>
+          </div>
+
+          <div class="apps-grid">
+            <Link 
+              v-for="app in applications" 
+              :key="app.id"
+              :href="route('app.show.doc', { appSlug: app.slug })"
+              class="app-card bg-white dark:bg-[#111116] border border-slate-200 dark:border-slate-800 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-500 dark:hover:border-indigo-400"
+            >
+              <div class="app-card-header mb-5 flex items-center justify-between">
+                <div class="app-brand flex items-center gap-3">
+                  <div :class="['brand-dot w-2.5 h-2.5 rounded-full shadow-[0_0_10px_currentColor]', app.color || 'bg-indigo-500']"></div>
+                  <h4 class="text-lg font-extrabold text-slate-900 dark:text-white">{{ app.name }}</h4>
+                </div>
+                <div class="app-status text-[9px] font-extrabold tracking-wider text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-md uppercase">Active</div>
+              </div>
+              <p class="app-description text-sm leading-relaxed text-slate-600 dark:text-slate-400 flex-1">{{ app.description || 'Access comprehensive guides and documentation for ' + app.name + '.' }}</p>
+              <div class="app-footer mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <span class="footer-link-text text-sm font-bold text-indigo-600 dark:text-indigo-400">Read Documentation</span>
+                <div class="footer-icon w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-indigo-600 dark:text-indigo-400 transition-all">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4">
+                    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </section>
+
+
+
       </main>
 
       <!-- ── Footer ── -->
@@ -199,16 +251,10 @@ defineProps<{
   align-items: center;
   justify-content: space-between;
   padding: 24px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.03);
+  border-bottom: none;
 }
 
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 24px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.03);
-}
+
 
 .navbar-brand {
   display: flex;
@@ -242,44 +288,39 @@ defineProps<{
   color: #818cf8;
 }
 
-.btn-login {
+.nav-btn-login {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 20px;
+  padding: 8px 18px;
   border-radius: 8px;
-  border: 1px solid rgba(99,102,241,0.2);
-  color: #6366f1;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
   text-decoration: none;
-  background: rgba(99,102,241,0.05);
   transition: all 0.2s ease;
-  letter-spacing: -0.1px;
+  border: 1px solid #e2e8f0;
 }
 
-.btn-login {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 20px;
-  border-radius: 8px;
-  border: 1px solid rgba(99,102,241,0.2);
-  color: #6366f1;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  background: rgba(99,102,241,0.05);
-  transition: all 0.2s ease;
-  letter-spacing: -0.1px;
+:global(.dark) .nav-btn-login {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.btn-login:hover {
-  background: rgba(99,102,241,0.18);
-  border-color: rgba(99,102,241,0.8);
-  color: #c7d2fe;
-  box-shadow: 0 0 20px rgba(99,102,241,0.2);
+
+
+.nav-btn-login:hover {
+  background: #f8fafc;
+  color: #6366f1;
+  border-color: #6366f1;
 }
+
+:global(.dark) .nav-btn-login:hover {
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  border-color: #818cf8;
+}
+
 
 /* ── Hero ── */
 .hero {
@@ -505,6 +546,107 @@ defineProps<{
   width: 16px; height: 16px;
 }
 
+.btn-secondary-custom {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .btn-secondary-custom {
+  background: transparent;
+  border-color: rgba(255,255,255,0.1);
+  color: #94a3b8;
+}
+
+.btn-secondary-custom:hover {
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+:global(.dark) .btn-secondary-custom:hover {
+  border-color: rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+/* ── Explore Section ── */
+.explore-section {
+  width: 100%;
+  padding: 80px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.section-header {
+  text-align: left;
+}
+
+.section-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.section-desc {
+  font-size: 15px;
+}
+
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.app-card {
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+
+.app-card-header h4 {
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.app-description {
+  line-height: 1.6;
+}
+
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.app-card:hover .footer-icon {
+  background: #6366f1 !important;
+  color: #fff !important;
+  transform: translateX(3px);
+}
+
+
+
+
 /* ── Footer ── */
 .site-footer {
   text-align: center;
@@ -573,4 +715,11 @@ html.dark .welcome-root .site-footer {
   border-top: 1px solid rgba(255,255,255,0.06);
   color: rgba(255,255,255,0.2);
 }
+#explore-apps {
+  border-top: none !important;
+}
+.welcome-root {
+  border-top: none !important;
+}
+
 </style>

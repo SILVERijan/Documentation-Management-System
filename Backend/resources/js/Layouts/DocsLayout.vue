@@ -262,15 +262,18 @@ const navApplications = computed(() => (page.props as any).applications ?? [])
             </div>
         </template>
         
-        <!-- Guest Login Button -->
+        <!-- Guest Actions -->
         <template v-else>
-            <Link 
-                :href="route('login')" 
-                class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-white hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors bg-indigo-50 dark:bg-white/5 hover:bg-indigo-100 dark:hover:bg-white/10 px-4 py-2 rounded-lg flex items-center gap-4"
-            >
-                Log In
+            <div class="flex items-center gap-4">
                 <ThemeSwitcher />
-            </Link>
+                <div class="w-px h-4 bg-slate-200 dark:bg-slate-800 mx-1"></div>
+                <Link 
+                    :href="route('login')" 
+                    class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-white hover:text-indigo-700 dark:hover:text-indigo-300 transition-all bg-indigo-50 dark:bg-white/5 hover:bg-indigo-100 dark:hover:bg-white/10 px-4 py-2 rounded-lg"
+                >
+                    Log In
+                </Link>
+            </div>
         </template>
       </div>
     </header>
