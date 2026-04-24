@@ -112,7 +112,16 @@ class DocumentController extends Controller
             }
         }
 
-        $validated['slug'] = Str::slug($validated['title']);
+        $baseSlug = Str::slug($validated['title']);
+        $slug = $baseSlug;
+        $counter = 1;
+        // withTrashed() ensures soft-deleted documents are included in the
+        // uniqueness check — MySQL's unique index covers all rows, not just active ones.
+        while (Document::withTrashed()->where('slug', $slug)->where('application_id', $validated['application_id'])->exists()) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
+        $validated['slug'] = $slug;
         $validated['user_id'] = $user->id;
         $validated['updated_by'] = $user->id;
 
@@ -205,7 +214,17 @@ class DocumentController extends Controller
         }
 
         if ($document->title !== $validated['title']) {
-            $validated['slug'] = Str::slug($validated['title']);
+            $baseSlug = Str::slug($validated['title']);
+            $slug = $baseSlug;
+            $counter = 1;
+            while (Document::withTrashed()->where('slug', $slug)
+                ->where('application_id', $validated['application_id'])
+                ->where('id', '!=', $document->id)
+                ->exists()) {
+                $slug = $baseSlug . '-' . $counter;
+                $counter++;
+            }
+            $validated['slug'] = $slug;
         }
         
         $validated['updated_by'] = $user->id;

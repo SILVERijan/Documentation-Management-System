@@ -213,7 +213,7 @@ const userMenu = computed(() => {
       <div class="bg-white dark:bg-[#161616] border border-slate-200 dark:border-[#262626] rounded-3xl overflow-hidden shadow-2xl">
           <div class="p-8 border-b border-slate-200 dark:border-[#262626] flex items-center justify-between bg-slate-50 dark:bg-[#1a1a1a]/50">
               <div>
-                  <h2 class="text-xl font-bold text-white mb-1">Attachments</h2>
+                  <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Attachments</h2>
                   <p class="text-gray-500 text-sm">Add supporting files, PDFs, or images to this document.</p>
               </div>
               <div class="relative">
@@ -226,7 +226,7 @@ const userMenu = computed(() => {
                   <button 
                       @click="fileInput?.click()"
                       :disabled="uploadForm.processing"
-                      class="flex items-center gap-2 px-4 py-2 bg-white/5 border border-slate-200 dark:border-[#262626] text-white rounded-xl text-xs font-bold hover:bg-white/10 transition-all disabled:opacity-50"
+                      class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-white/5 border border-slate-200 dark:border-[#262626] text-slate-700 dark:text-white rounded-xl text-xs font-bold hover:bg-slate-50 dark:hover:bg-white/10 transition-all disabled:opacity-50"
                   >
                       <div v-if="uploadForm.processing" class="flex items-center gap-2">
                           <Loader2 class="w-3 h-3 animate-spin" />
@@ -261,7 +261,7 @@ const userMenu = computed(() => {
                       class="group bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200 dark:border-[#262626] p-4 rounded-2xl flex items-center justify-between hover:border-indigo-500/30 transition-all"
                   >
                       <div class="flex items-center gap-4 min-w-0">
-                          <div class="w-10 h-10 rounded-xl bg-[#16161a] border border-slate-200 dark:border-[#262626] flex items-center justify-center text-gray-500 group-hover:text-indigo-400 transition-colors overflow-hidden">
+                          <div class="w-10 h-10 rounded-xl bg-white dark:bg-[#16161a] border border-slate-200 dark:border-[#262626] flex items-center justify-center text-gray-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors overflow-hidden">
                               <img 
                                   v-if="['jpg', 'jpeg', 'png', 'webp', 'gif'].includes(file.file_type.toLowerCase())" 
                                   :src="route('user.attachments.download', file.id)" 
@@ -283,7 +283,7 @@ const userMenu = computed(() => {
                           <a 
                               :href="route('user.attachments.download', file.id)" 
                               target="_blank"
-                              class="p-2 text-gray-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-lg transition-all"
+                              class="p-2 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-lg transition-all"
                               title="View / Download"
                           >
                               <ImageIcon v-if="['jpg', 'jpeg', 'png', 'webp', 'gif'].includes(file.file_type.toLowerCase())" class="w-4 h-4" />
@@ -292,7 +292,7 @@ const userMenu = computed(() => {
                           </a>
                           <button 
                               @click="deleteAttachment(file.id)"
-                              class="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
+                              class="p-2 text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-all"
                               title="Remove"
                           >
                               <Trash2 class="w-4 h-4" />
